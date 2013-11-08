@@ -16,6 +16,7 @@ $this->menu=array(
 );
 ?>
 
+
 <h1>Factura Nº<?php echo $model->id; ?></h1>
 <?php 
     //Obtener el nombre del cliente de la factura a través del id de la factura
@@ -30,6 +31,7 @@ $this->menu=array(
 		'Fecha',
 		'Observaciones',
 		'idEmpleado',
+                'Pagado',
 	),
 )); ?>
 

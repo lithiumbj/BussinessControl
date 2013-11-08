@@ -19,11 +19,13 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'idCliente'); ?>
 		<?php echo $form->dropDownList($model, 'idCliente', $this->getAllClientes()); ?> 
 		<?php echo $form->error($model,'idCliente'); ?>
 	</div>
+
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'Fecha'); ?>
@@ -48,6 +50,7 @@
 		<?php echo $form->error($model,'Fecha'); ?>
 	</div>
 
+
 	<div class="row">
 		<?php echo $form->labelEx($model,'Observaciones'); ?>
 		<?php echo $form->textArea($model,'Observaciones',array('rows'=>6, 'cols'=>50)); ?>
@@ -60,6 +63,16 @@
                 ?>
 		<?php echo $form->textField($model,'idEmpleado'); ?>
 		<?php echo $form->error($model,'idEmpleado'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'Pagado'); ?>
+                <?php 
+                $opcionesPagado = array(0=>'No pagado',1=>'Pagado');
+                //Desplegable con opciones de pagado
+                echo $form->dropDownList($model, 'Pagado', $opcionesPagado, $htmlOptions=array ( )); ?>
+		<?php /*echo $form->textField($model,'Pagado'); */?>
+		<?php echo $form->error($model,'Pagado'); ?>
 	</div>
 
 	<div class="row buttons">

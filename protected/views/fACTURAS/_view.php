@@ -5,7 +5,7 @@
 
 <div class="view">
 
-	<b>Factura Nº</b>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
 	<br />
 
@@ -20,9 +20,13 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('Observaciones')); ?>:</b>
 	<?php echo CHtml::encode($data->Observaciones); ?>
 	<br />
-
+	
 	<b>Empleado:</b>
 	<?php echo CHtml::encode($this->getUserName($data->idEmpleado) ); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('Pagado')); ?>:</b>
+	<?php echo CHtml::encode($data->Pagado); ?>
 	<br />
 
 

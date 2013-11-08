@@ -9,6 +9,7 @@
  * @property string $Fecha
  * @property string $Observaciones
  * @property integer $idEmpleado
+ * @property integer $Pagado
  *
  * The followings are the available model relations:
  * @property CLIENTES $idCliente0
@@ -33,12 +34,12 @@ class FACTURAS extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idCliente, idEmpleado', 'required'),
-			array('idCliente, idEmpleado', 'numerical', 'integerOnly'=>true),
+			array('idCliente, idEmpleado, Pagado', 'required'),
+			array('idCliente, idEmpleado, Pagado', 'numerical', 'integerOnly'=>true),
 			array('Fecha, Observaciones', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, idCliente, Fecha, Observaciones, idEmpleado', 'safe', 'on'=>'search'),
+			array('id, idCliente, Fecha, Observaciones, idEmpleado, Pagado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,6 +68,7 @@ class FACTURAS extends CActiveRecord
 			'Fecha' => 'Fecha',
 			'Observaciones' => 'Observaciones',
 			'idEmpleado' => 'Id Empleado',
+			'Pagado' => 'Pagado',
 		);
 	}
 
@@ -93,6 +95,7 @@ class FACTURAS extends CActiveRecord
 		$criteria->compare('Fecha',$this->Fecha,true);
 		$criteria->compare('Observaciones',$this->Observaciones,true);
 		$criteria->compare('idEmpleado',$this->idEmpleado);
+		$criteria->compare('Pagado',$this->Pagado);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -109,6 +112,4 @@ class FACTURAS extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-        
-        
 }
