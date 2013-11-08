@@ -1,0 +1,16 @@
+/* 
+    Document   : custom
+    Created on : 31-oct-2013, 17:13:51
+    Author     : borja
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.view{
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+    border:1px solid whitesmoke;
+    position: relative;
+    height: 200px;
+}
