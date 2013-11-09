@@ -15,7 +15,7 @@ class FACTURASController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
+			/*'postOnly + delete', // we only allow deletion via POST request*/
 		);
 	}
 
@@ -32,11 +32,11 @@ class FACTURASController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'print'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete', 'print'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -184,7 +184,19 @@ class FACTURASController extends Controller
 			Yii::app()->end();
 		}
 	}
-        
+        /*
+         * Prepara para imprimir una factura
+         */
+        public function actionPrint()
+        {
+            $id = $_GET['id'];
+            //Obtener la factura mediante su FK
+            $model = FACTURAS::model()->findByPk($id);
+            //Renderizar la vista de Print en funcion del modelo obtenido y pasado a la vista de render
+            $this->render('print',array(
+			'model'=>$model,
+		));
+        }
         /*
          * Este método retorna todos los clientes registrados para las facturas
          * @return Array de pares de clientes e ids
@@ -280,7 +292,9 @@ class FACTURASController extends Controller
           $model = new LINEASCOMPRA();
           return $model;
         }
-        
+        /*
+         * Retorna una lista de todos los articulos
+         */
         public function getArticulos()
         {
             //Obtener con un provider TODOS los articulos
@@ -295,5 +309,70 @@ class FACTURASController extends Controller
                 $articulos[$articulo->id] = $articulo['Nombre'];
             }
             return $articulos;
+        }
+        /*
+         * Retorna un objeto detalle de un articulo en concreto según su id
+         */
+        function getArticuloDetails($idArticulo)
+        {
+            $dataProvider = new CActiveDataProvider('ARTICULOS', array(
+               'criteria' => array(
+                   'condition' => 'id='.$idArticulo,
+               ),
+            ));
+            
+            return $dataProvider->getData()[0];
+        }
+        /*
+         * Retorna un dataProvider (data) con todos los articulos seleccionados en las lineas de compra
+         */
+        public function getPrintLineasCompra($facturaID)
+        {
+            $returnLineas = array();
+            $dataProvider = new CActiveDataProvider('LINEASCOMPRA', array(
+               'criteria' => array(
+                   'condition' => 'idFactura='.$facturaID,
+               ),
+            ));
+            //Volcar los datos de cada una de las lineas de compra a un array 
+            $lineas = $dataProvider->getData();
+            //Procesar las lineas de compra una por una
+            for($i=0;$i<count($lineas);$i++){
+                //guardar el idDel articulo por comodidad
+                $idLinea = $lineas[$i]['idArticulo'];
+                //Crear un array con los datos de las lineas de compra
+                $returnLineas[$i]['idProducto'] = $lineas[$i]['idArticulo'];
+                $returnLineas[$i]['Cantidad'] = $lineas[$i]['Cantidad'];
+                $returnLineas[$i]['Precio'] = $this->getArticuloDetails($idLinea)['pvp'];
+                $returnLineas[$i]['Nombre'] = $this->getArticuloDetails($idLinea)['Nombre'];
+            }
+            
+            //Retorno de datos
+            return $returnLineas;
+        }
+        /*
+         * Retornar array con los datos del cliente sobre el cual está hecha la factura
+         */
+        function getFacturaCliente($clienteId)
+        {
+            $cliente = array();
+            //Obtenerlo mediante un dataProvider
+            $dataProvider = new CActiveDataProvider('CLIENTES', array(
+               'criteria' => array(
+                   'condition' => 'id='.$clienteId,
+               ),
+            ));
+            //Almacenamiento de datos del cliente
+            $cliente['Nombre'] = $dataProvider->getData()[0]['Nombre'];
+            $cliente['Apellidos'] = $dataProvider->getData()[0]['Apellidos'];
+            $cliente['Cifempresa'] = $dataProvider->getData()[0]['CIFEmpresa'];
+            $cliente['Empresa'] = $dataProvider->getData()[0]['Empresa'];
+            $cliente['Poblacion'] = $dataProvider->getData()[0]['Poblacion'];
+            $cliente['Provincia'] = $dataProvider->getData()[0]['Ciudad'];
+            $cliente['Direccion'] = $dataProvider->getData()[0]['Direccion'];
+            $cliente['CodigoPostal'] = $dataProvider->getData()[0]['CodigoPostal'];
+            
+            //Retorno de datos
+            return $cliente;
         }
 }
