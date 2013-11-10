@@ -5,6 +5,11 @@
 $this->breadcrumbs = array(
     'Facturases' => array('index'),
 );
+
+    //Importar el controlador de ajustes
+    Yii::import('application.controllers.AJUSTESController');
+    //Inicializar y obtener los ajustes de la aplicación
+    $ajustes = AJUSTESController::getSettings();
 //Obtener todas las líneas de compra
 $lineasFactura = $this->getPrintLineasCompra($model->id);
 $cliente = $this->getFacturaCliente($model->idCliente);
@@ -130,16 +135,72 @@ $cliente = $this->getFacturaCliente($model->idCliente);
             <td style="border-bottom: 1px solid #bebebe;"></td>
         </tr>
         <!-- Comienza listado de lineas de compra -->
-        <?php foreach ($lineasFactura as $linea):
+        <?php 
+            $precioTotal=0;
+            $IVATotal=0;
+            $RETotal=0;
+            foreach ($lineasFactura as $linea):
             ?>
             <tr>
                 <td colspan="3" class="tdFactura"><?php echo $linea['Nombre']; ?></td>
                 <td class="tdFactura"><?php echo $linea['Precio']; ?>€</td>
-                <td class="tdFactura"><?php echo $linea['Cantidad']; ?></td>
-                <td class="tdFactura"><?php echo ($linea['Cantidad'] * $linea['Precio']) * 0.21; ?>€</td>
+                <td class="tdFactura"><?php echo $linea['Cantidad'];?></td>
+                <td class="tdFactura"><?php echo ($linea['Cantidad'] * $linea['Precio']) *($ajustes['IVA']/100); ?>€</td>
                 <td class="tdFactura" style="border-right: 1px solid #bebebe;"><?php echo ($linea['Cantidad'] * $linea['Precio']); ?>€</td>
             </tr>
+            <?php 
+                //Almacenar los recargos impuestos y totales de dinero
+                $precioTotal += ($linea['Precio']*$linea['Cantidad']);
+                $IVATotal += (($linea['Precio']*$linea['Cantidad'])*($ajustes['IVA']/100));
+                $RETotal += (($linea['Precio']*$linea['Cantidad'])*($ajustes['RecargoEquivalencia']/100));
+            ?>
         <?php endforeach; ?>
         <!-- Fin de las líneas y printar los datos de pago -->
+        
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><b>Forma de pago</b></td>
+            <td>VISA</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Total EUR+RE excl</b></td>
+            <td><?php echo $precioTotal; ?>€</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Importe IVA+RE</b></td>
+            <td><?php echo round($RETotal+$IVATotal,2); ?>€</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Total EUR+RE incl</b></td>
+            <td><?php echo round(($precioTotal)+($RETotal+$IVATotal),2); ?>€</td>
+        </tr>
     </table>
 </div>

@@ -13,18 +13,11 @@ $this->menu=array(
 	array('label'=>'Modificar Factura', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Borrar Factura', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Gestionar Facturas', 'url'=>array('admin')),
-	array('label'=>'Imprimir Factura', 'url'=>array('print&id='.$model->id)), 
 );
 ?>
 
-
 <h1>Factura Nº<?php echo $model->id; ?></h1>
 <?php 
-    //Importar el controlador de ajustes
-    Yii::import('application.controllers.AJUSTESController');
-    //Inicializar y obtener los ajustes de la aplicación
-    $ajustes = AJUSTESController::getSettings();
-
     //Obtener el nombre del cliente de la factura a través del id de la factura
     $model->idCliente = $this->getCliente($model->idCliente);
     //Obtener el nombre del empleado que la realizó en la factura
@@ -37,7 +30,6 @@ $this->menu=array(
 		'Fecha',
 		'Observaciones',
 		'idEmpleado',
-                'Pagado',
 	),
 )); ?>
 
@@ -116,7 +108,7 @@ $this->menu=array(
         $total = $total+(LINEASCOMPRAController::getItemPVPById(LINEASCOMPRAController::getItemIDbyFactura($linea['id']))*$linea['Cantidad']);
     }
     //Calcular el total de iva
-    $totaliva = ($total*($ajustes['IVA']/100));
+    $totaliva = ($total*0.21);
 ?>
                 <td><?php echo $total;?>€</td>
                 <td>21%</td>

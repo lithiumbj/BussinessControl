@@ -197,6 +197,7 @@ class FACTURASController extends Controller
 			'model'=>$model,
 		));
         }
+        
         /*
          * Este método retorna todos los clientes registrados para las facturas
          * @return Array de pares de clientes e ids

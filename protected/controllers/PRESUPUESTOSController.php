@@ -193,6 +193,29 @@ class PRESUPUESTOSController extends Controller
             return $listaClientes;
         }
         
+        /*
+         * Este método retorna el Cliente al cual se le ha hecho la factura
+         */
+        public function getCliente($id)
+        {
+            //Generar el Data provider
+            $clientes = new CActiveDataProvider('CLIENTES', array(
+                 'pagination'=>array(
+                    'pageSize'=>2000,
+                ),
+            ));
+            //Crear un array vacio de pares para el cliente
+            $listaClientes;
+            //Creamos un foreach para obtener el Nombre y el apellido del cliente en función de su id
+            foreach ($clientes->getData() as $cliente){
+                //Comprobar el id del cliente y retornarlo
+                if($cliente['id'] == $id){
+                    return $cliente['Nombre'].' '.$cliente['Apellidos'];
+                    break;
+                }
+            }
+        }
+        
          /*
          * Funcion que retorna el nombre y apellidos del empleado
          * @param String dni 
