@@ -13,7 +13,7 @@ $this->breadcrumbs = array(
     //Obtener todas las líneas de presupuesto
 ?>
 <div class="presuPage">
-    <img src="http://xubuntu/BussinessControl/images/logo.jpg" class="presuLogo"/>
+    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png" class="presuLogo"/>
     <div class="presuTitle">Presupuesto</div>
     <div class="presuSubTitle">
         MURCIA<br/>
@@ -22,7 +22,7 @@ $this->breadcrumbs = array(
 </div>
 
 <div class="presuPage">
-    <img src="http://xubuntu/BussinessControl/images/logo.jpg" class="presuLogo"/>
+    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png" class="presuLogo"/>
     <div class="presuClienteTitle">CLIENTE</div>
     <span class="presuClienteName"><?php echo $this->getCliente($model->idCliente) ;?></span>
     <div class="presuPresuTitle">PRESUPUESTOS</div>
@@ -65,7 +65,7 @@ $this->breadcrumbs = array(
     </div>
 
 <div class="presuLastPage">
-    <img src="http://xubuntu/BussinessControl/images/logo.jpg" class="presuLogo"/><br/>
+    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png" class="presuLogo"/><br/>
     <div class="presuPresuTitle" style="text-align: center;">CONTRATO</div><br/>
     <u>CONSIDERACIONES GENERALES</u><br/><br/>
 

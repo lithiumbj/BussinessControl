@@ -9,9 +9,9 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h1>Login</h1>
+<h1>Acceso al sistema</h1>
 
-<p>Please fill out the following form with your login credentials:</p>
+<p>Usuario 21702321G<br/>Contraseña: 1234</p>
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(

@@ -22,7 +22,7 @@ $cliente = $this->getFacturaCliente($model->idCliente);
             <td></td>
             <td></td>
             <td></td>
-            <td colspan="2"><img src="http://xubuntu/BussinessControl/images/logo.jpg" style="width: 200px;"/></td>
+            <td colspan="2"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png" style="width: 200px;"/></td>
         </tr>
         <tr>
             <td><b>Nº Factura:</b></td>
