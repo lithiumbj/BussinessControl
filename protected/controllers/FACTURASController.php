@@ -193,9 +193,25 @@ class FACTURASController extends Controller
             //Obtener la factura mediante su FK
             $model = FACTURAS::model()->findByPk($id);
             //Renderizar la vista de Print en funcion del modelo obtenido y pasado a la vista de render
-            $this->render('print',array(
-			'model'=>$model,
-		));
+            //$this->render('print',array('model'=>$model,));
+            
+            # mPDF
+            $mPDF1 = Yii::app()->ePdf->mpdf();
+
+            # You can easily override default constructor's params
+            $mPDF1 = Yii::app()->ePdf->mpdf('', 'A4');
+            # Load a stylesheet
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/main.css');
+            $mPDF1->WriteHTML($stylesheet, 1);
+
+            # renderPartial (only 'view' of current controller)
+            $mPDF1->WriteHTML($this->renderPartial('print', array('model'=>$model), true));
+
+            # Renders image
+            $mPDF1->WriteHTML(CHtml::image(Yii::getPathOfAlias('webroot.css') . '/bg.gif' ));
+
+            # Outputs ready PDF
+            $mPDF1->Output();
         }
         
         /*
