@@ -13,6 +13,7 @@ $this->menu=array(
 	array('label'=>'Editar Presupuesto', 'url'=>array('update', 'id'=>$model->ID)),
 	array('label'=>'Borrar Presupuesto', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Gestionar Presupuestos', 'url'=>array('admin')),
+	array('label'=>'Imprimir Presupuesto', 'url'=>array('print&id='.$model->ID)), 
 );
 ?>
 

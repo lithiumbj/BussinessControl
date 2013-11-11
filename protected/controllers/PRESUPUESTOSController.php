@@ -32,7 +32,7 @@ class PRESUPUESTOSController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'print'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -171,6 +171,35 @@ class PRESUPUESTOSController extends Controller
 		}
 	}
         /*
+         * Vista de impresión del presupuesto
+         */
+        public function actionPrint()
+        {
+            $id = $_GET['id'];
+            //Obtener la factura mediante su FK
+            $model =  PRESUPUESTOS::model()->findByPk($id);
+            //Renderizar la vista de Print en funcion del modelo obtenido y pasado a la vista de render
+            //$this->render('print',array('model'=>$model,));
+            
+            # mPDF
+            $mPDF1 = Yii::app()->ePdf->mpdf();
+
+            # You can easily override default constructor's params
+            $mPDF1 = Yii::app()->ePdf->mpdf('', 'A4');
+            # Load a stylesheet
+            $stylesheet = file_get_contents(Yii::getPathOfAlias('webroot.css') . '/main.css');
+            $mPDF1->WriteHTML($stylesheet, 1);
+
+            # renderPartial (only 'view' of current controller)
+            $mPDF1->WriteHTML($this->renderPartial('print', array('model'=>$model), true));
+
+            # Renders image
+            $mPDF1->WriteHTML(CHtml::image(Yii::getPathOfAlias('webroot.css') . '/bg.gif' ));
+
+            # Outputs ready PDF
+            $mPDF1->Output();
+        }
+        /*
          * Este método retorna todos los clientes registrados para las facturas
          * @return Array de pares de clientes e ids
          */
@@ -280,5 +309,35 @@ class PRESUPUESTOSController extends Controller
                 $articulos[$articulo->id] = $articulo['Nombre'];
             }
             return $articulos;
+        }
+        /*
+         * Esta funcion retorna un array personalizado sin una estructura definida para el impresor de pdfs de presupuestos
+         */
+        public function getPrintLineasArray($idFactura)
+        {
+            $array = array();
+            /*
+             * DataProvider de lineas de compra
+             */
+            $provider1 = new CActiveDataProvider('LINEASPRESUPUESTOS', array(
+                'criteria' => array(
+                    'condition' => 'idFactura='.$idFactura,
+                )
+            ));
+            $provider1Data = $provider1->getData();
+            //Recorrer cada línea de compra y almacenar los datos
+            for($i=0;$i<count($provider1Data);$i++){
+                $array[$i]['id'] = $provider1Data[$i]['id'];
+                $provider2 = new CActiveDataProvider('ARTICULOS', array(
+                    'criteria' => array(
+                        'condition' => 'id='.$provider1Data[$i]['idArticulo'],
+                    ),
+                ));
+                $provider2Data = $provider2->getData();
+                $array[$i]['Nombre'] = $provider2Data[0]['Nombre'];
+                $array[$i]['Precio'] = $provider2Data[0]['pvp'];
+                $array[$i]['Cantidad'] = $provider1Data[$i]['Cantidad'];
+            }
+            return $array;
         }
 }
