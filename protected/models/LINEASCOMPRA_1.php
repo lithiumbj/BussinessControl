@@ -8,8 +8,6 @@
  * @property integer $idArticulo
  * @property integer $Cantidad
  * @property integer $idFactura
- * @property string $NombreDelProducto
- * @property double $CosteOrigenProducto
  *
  * The followings are the available model relations:
  * @property FACTURAS $idFactura0
@@ -33,13 +31,11 @@ class LINEASCOMPRA extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idArticulo, Cantidad, idFactura, NombreDelProducto, CosteOrigenProducto', 'required'),
+			array('idArticulo, Cantidad, idFactura', 'required'),
 			array('idArticulo, Cantidad, idFactura', 'numerical', 'integerOnly'=>true),
-			array('CosteOrigenProducto', 'numerical'),
-			array('NombreDelProducto', 'length', 'max'=>150),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, idArticulo, Cantidad, idFactura, NombreDelProducto, CosteOrigenProducto', 'safe', 'on'=>'search'),
+			array('id, idArticulo, Cantidad, idFactura', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,8 +62,6 @@ class LINEASCOMPRA extends CActiveRecord
 			'idArticulo' => 'Id Articulo',
 			'Cantidad' => 'Cantidad',
 			'idFactura' => 'Id Factura',
-			'NombreDelProducto' => 'Nombre Del Producto',
-			'CosteOrigenProducto' => 'Coste Origen Producto',
 		);
 	}
 
@@ -93,8 +87,6 @@ class LINEASCOMPRA extends CActiveRecord
 		$criteria->compare('idArticulo',$this->idArticulo);
 		$criteria->compare('Cantidad',$this->Cantidad);
 		$criteria->compare('idFactura',$this->idFactura);
-		$criteria->compare('NombreDelProducto',$this->NombreDelProducto,true);
-		$criteria->compare('CosteOrigenProducto',$this->CosteOrigenProducto);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

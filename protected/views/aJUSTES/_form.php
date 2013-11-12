@@ -79,6 +79,13 @@
 		<?php echo $form->error($model,'CPEmpresa'); ?>
 	</div>
 
+
+	<div class="row">
+		Versión actual del sistema: <b>2014 Beta3</b><br/>
+                Compilación actual del sistema: <b>1000</b><br/>
+                Compruebe versiones del sistema <a target="BLANK" href="http://www.tiestudios.com/api/bc/updateCheck.php?comp=1000&custom=yes" style="text-decoration: none !important;">aquí</a>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Guardar'); ?>
 	</div>

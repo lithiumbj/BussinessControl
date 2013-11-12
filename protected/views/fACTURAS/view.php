@@ -96,7 +96,12 @@ $this->menu=array(
     //Generar cálculos de pvp total con iva, sin iva
     ?>
   <?php //Generar un formulario en base al contexto de la linea de compra
-    LINEASCOMPRAController::getContext()->renderPartial('//lINEASCOMPRA/_form', array('model' =>$modeloLineas)); ?>
+    LINEASCOMPRAController::getContext()->renderPartial('//lINEASCOMPRA/_form', array('model' =>$modeloLineas)); 
+    //Recuperar el error de vuelta en caso de que no haya STOCK
+    if(isset($_GET['err'])){
+        echo '<div style="border:1px solid red;color: red;background-color:cornsilk;text-align:center;">Stock insuficiente del articulo seleccionado</div>';
+    }
+    ?>
 <br/>
 <h1>Total</h1>
     <table class="tablaTotal">

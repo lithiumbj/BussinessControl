@@ -37,7 +37,7 @@ class ARTICULOSController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -232,5 +232,34 @@ class ARTICULOSController extends Controller
            //retornar el valor
            return $proveedoresProvider->getData()[0]['Nombre'];
     }
-
+    /*
+     * Retorna los datos de un objeto en funcion de su id
+     */
+    public function getItemById($id)
+    {
+        $dataProvider = new CActiveDataProvider('ARTICULOS', array(
+           'criteria' => array(
+               'condition' => 'id='.$id,
+           ),
+        ));
+        
+        return $dataProvider->getData()[0];
+    }
+    /*
+     * Funcion que retorna true si se puede realizar la acción de disminuir STOCK
+     */
+    public function downStock($id, $cantidad)
+    {
+        //Cargar el modelo en funcion a su id
+        $model= ARTICULOSController::loadModel($id);
+        //var_dump($model);
+        //Verificar si se puede soportar esa cantidad de modificacion de stock
+        if(($model->Stock-$cantidad)>=0){
+                $model->Stock = $model->Stock-$cantidad;
+                $model->save();
+                return true;
+        }else{
+            return false;
+        }
+    }
 }

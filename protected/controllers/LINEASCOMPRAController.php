@@ -70,8 +70,22 @@ class LINEASCOMPRAController extends Controller
 		if(isset($_POST['LINEASCOMPRA']))
 		{
 			$model->attributes=$_POST['LINEASCOMPRA'];
-			if($model->save())
-				$this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
+                        //Guardar datos extra para la linea de compra en caso de que se borren los articulos de origen
+                        //Que no se pieda ni el concepto ni el importe sin iva
+                        Yii::import('application.controllers.ARTICULOSController');
+                        $articulo = ARTICULOSController::getItemById($model->idArticulo);
+                        //Incluir los datos en el modelo
+                        $model->CosteOrigenProducto=$articulo['pvp'];
+                        $model->NombreDelProducto=$articulo['Nombre'];
+                        //END
+			if($model->save()){
+                                //Disminuir en STOCK la cantidad de elementos que se han pedido a la linea
+                                if(ARTICULOSController::downStock($model->idArticulo, $model->Cantidad)){
+                                    $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
+                                }else{
+                                    $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura, 'err'=>1));
+                                }
+                        }
 		}
 
 		$this->render('create',array(
