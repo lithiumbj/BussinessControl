@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'ARTICULOS':
  * @property integer $id
  * @property string $Nombre
- * @property string $Stock
+ * @property integer $Stock
  * @property string $Dx
  * @property string $Dy
  * @property string $Dz
@@ -18,6 +18,7 @@
  * The followings are the available model relations:
  * @property ARTICULOPROVEEDOR $idArtProveedor0
  * @property LINEASCOMPRA[] $lINEASCOMPRAs
+ * @property LINEASPRESUPUESTOS[] $lINEASPRESUPUESTOSes
  */
 class ARTICULOS extends CActiveRecord
 {
@@ -37,10 +38,10 @@ class ARTICULOS extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('idArtProveedor, pvp', 'required'),
-			array('idArtProveedor', 'numerical', 'integerOnly'=>true),
+			array('Stock, idArtProveedor, pvp', 'required'),
+			array('Stock, idArtProveedor', 'numerical', 'integerOnly'=>true),
 			array('pvp', 'numerical'),
-			array('Nombre, Stock, Dx, Dy, Dz, Peso, Descripcion', 'length', 'max'=>45),
+			array('Nombre, Dx, Dy, Dz, Peso, Descripcion', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, Nombre, Stock, Dx, Dy, Dz, Peso, idArtProveedor, Descripcion, pvp', 'safe', 'on'=>'search'),
@@ -57,6 +58,7 @@ class ARTICULOS extends CActiveRecord
 		return array(
 			'idArtProveedor0' => array(self::BELONGS_TO, 'ARTICULOPROVEEDOR', 'idArtProveedor'),
 			'lINEASCOMPRAs' => array(self::HAS_MANY, 'LINEASCOMPRA', 'idArticulo'),
+			'lINEASPRESUPUESTOSes' => array(self::HAS_MANY, 'LINEASPRESUPUESTOS', 'idArticulo'),
 		);
 	}
 
@@ -99,7 +101,7 @@ class ARTICULOS extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('Nombre',$this->Nombre,true);
-		$criteria->compare('Stock',$this->Stock,true);
+		$criteria->compare('Stock',$this->Stock);
 		$criteria->compare('Dx',$this->Dx,true);
 		$criteria->compare('Dy',$this->Dy,true);
 		$criteria->compare('Dz',$this->Dz,true);

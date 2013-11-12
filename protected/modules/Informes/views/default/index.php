@@ -17,6 +17,7 @@ Para comenzar elija el tipo de informe a generar
 <div class="centerLinks">
     <a href="?r=Informes/impagos" style="text-decoration: none;">Informe de impagos</a>
     <a href="#" style="text-decoration: none;margin-left: 25px;">Informe de ganancias</a>
+    <a href="?r=Informes/stocks" style="text-decoration: none;margin-left: 25px;">Informe de Stocks</a>
 </div>
 
 </p>

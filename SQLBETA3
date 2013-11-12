@@ -1,3 +1,4 @@
 ALTER TABLE  `LINEASCOMPRA` ADD  `NombreDelProducto` VARCHAR( 150 ) NOT NULL ,
 ADD  `CosteOrigenProducto` FLOAT NOT NULL ;
 
+ALTER TABLE  `ARTICULOS` CHANGE  `Stock`  `Stock` INT( 45 ) NOT NULL ;

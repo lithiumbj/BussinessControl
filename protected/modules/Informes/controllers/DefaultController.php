@@ -13,7 +13,7 @@ class DefaultController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','impagos'),
+				'actions'=>array('index','impagos', 'stocks'),
 				'users'=>array('*'),
 			),
 		);
