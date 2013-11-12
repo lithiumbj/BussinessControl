@@ -78,13 +78,14 @@ class LINEASCOMPRAController extends Controller
                         $model->CosteOrigenProducto=$articulo['pvp'];
                         $model->NombreDelProducto=$articulo['Nombre'];
                         //END
-			if($model->save()){
+			if(ARTICULOSController::downStock($model->idArticulo, $model->Cantidad)){
                                 //Disminuir en STOCK la cantidad de elementos que se han pedido a la linea
-                                if(ARTICULOSController::downStock($model->idArticulo, $model->Cantidad)){
-                                    $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
-                                }else{
-                                    $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura, 'err'=>1));
-                                }
+                                $model->save();
+                                $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
+                        }
+                            else{
+                                $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura, 'err'=>1));
+                                
                         }
 		}
 
