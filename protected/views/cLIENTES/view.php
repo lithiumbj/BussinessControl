@@ -53,3 +53,52 @@ $this->widget('zii.widgets.CDetailView', array(
 ));
     
 ?>
+<br/>
+<h2>Facturas relacionadas con este cliente</h2>
+<?php
+    //Importar el controlador de facturas
+    Yii::import('application.controllers.FACTURASController');
+    //Incializar widget de las facturas
+    
+$this->widget('zii.widgets.grid.CGridView', array(
+        'dataProvider' => FACTURASController::getFacturasFromCliente($model->id),
+                'columns'=>array(
+                    array(
+                        'name' => 'id',
+                        'value'=> '$data->id',
+                    ),
+                    array(
+                        'name'=>'id Cliente',
+                        'value'=>'$data->idCliente',
+                        'visible' => false,
+                    ),
+                    'Fecha',
+                    'Observaciones',
+                        array(            
+                    'name'=>'id Empleado',
+                    'visible'=>false,
+                    ),
+                    array(
+                      'name' => 'Pagado',
+                        'value' => '$data->Pagado',
+                    ),
+        
+        array(            // display a column with "view", "update" and "delete" buttons
+           'class'=>'CButtonColumn',
+                        'template'=>'{ver}',
+                        'header'=>'Acciones',
+                        'buttons'=>array
+                           (
+                                //Del template {borrar} sustituimos los datos para hacerlo funcionar como accion borar
+                              
+                               'ver' => array
+                               (
+                                   'label'=>'[-]',
+                                   'url'=>'Yii::app()->createUrl("fACTURAS/view", array("id"=>$data->id))',
+                                   'imageUrl'=>Yii::app()->request->baseUrl.'/images/view.png',
+                               ),
+                           ),
+                        'htmlOptions'=>array('width'=>100),
+        ),)
+    ));
+?>

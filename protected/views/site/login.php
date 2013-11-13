@@ -9,9 +9,9 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h1>Acceso al sistema</h1>
+<h1>Acceso al sistema</h1><!--
 
-<p>Usuario 21702321G<br/>Contraseña: 1234</p>
+<p>Usuario 21702321G<br/>Contraseña: 1234</p>-->
 
 <div class="form">
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -22,26 +22,26 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
+		D.N.I. Empleado<br/>
 		<?php echo $form->textField($model,'username'); ?>
 		<?php echo $form->error($model,'username'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
+		Contraseña<br/>
 		<?php echo $form->passwordField($model,'password'); ?>
 		<?php echo $form->error($model,'password'); ?>
 		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
+			Acceda con su dni y contraseña asignados, si no los recuerda, póngase en contacto con el administrador del sistema
 		</p>
 	</div>
 
 	<div class="row rememberMe">
 		<?php echo $form->checkBox($model,'rememberMe'); ?>
-		<?php echo $form->label($model,'rememberMe'); ?>
+		Recordar mi usuario
 		<?php echo $form->error($model,'rememberMe'); ?>
 	</div>
 

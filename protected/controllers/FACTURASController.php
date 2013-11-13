@@ -392,4 +392,33 @@ class FACTURASController extends Controller
             //Retorno de datos
             return $cliente;
         }
+        
+        /*
+         * Obtener las facturas de un cliente
+         */
+        public function getFacturasFromCliente($id)
+        {
+            $dataProvider = new CActiveDataProvider('FACTURAS', array(
+                'criteria' => array(
+                    'condition' => 'idCliente='.$id,
+                ),
+            ));
+            $datos = $dataProvider->getData();
+            //Recorrer el array de datos para sustituir algunos valores como pagado
+            for($i=0;$i<count($datos);$i++){
+                switch ($datos[$i]['Pagado']) {
+                    case 0:
+                        $datos[$i]['Pagado'] = "No pagado";
+                        break;
+                    case 1:
+                        $datos[$i]['Pagado'] = "Pagado";
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            $dataProvider->setData($datos);
+            return $dataProvider;
+        }
 }
