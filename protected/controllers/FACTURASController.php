@@ -65,6 +65,21 @@ class FACTURASController extends Controller
                     default:
                         break;
                 }
+                //Cambiar el método de pago según pertoque
+                switch ($model->FormaDePago) {
+                    case 0:
+                        $model->FormaDePago = "Efectivo";
+                        break;
+                    case 1:
+                        $model->FormaDePago = "Tarjeta de credito";
+                        break;
+                    case 1:
+                        $model->FormaDePago = "Transferencia";
+                        break;
+
+                    default:
+                        break;
+                }
 		$this->render('view',array(
 			'model'=>$model,
 		));

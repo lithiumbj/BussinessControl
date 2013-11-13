@@ -75,6 +75,14 @@
 		<?php echo $form->error($model,'Pagado'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'FormaDePago'); 
+                $formasDePago = array(0=>'Efectivo',1=>'Tarjeta de Crédito', 2=>'Transferencia');
+                ?>
+		<?php echo $form->dropDownList($model, 'FormaDePago', $formasDePago, $htmlOptions=array ( )); ?>
+		<?php echo $form->error($model,'FormaDePago'); ?>
+	</div>
+        
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

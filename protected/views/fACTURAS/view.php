@@ -29,6 +29,8 @@ $this->menu=array(
     $model->idCliente = $this->getCliente($model->idCliente);
     //Obtener el nombre del empleado que la realizó en la factura
     $model->idEmpleado = $this->getUserName($model->idEmpleado);
+    
+    
 ?>
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -38,6 +40,7 @@ $this->menu=array(
 		'Observaciones',
 		'idEmpleado',
                 'Pagado',
+                'FormaDePago',
 	),
 )); ?>
 
