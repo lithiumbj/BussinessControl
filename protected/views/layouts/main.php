@@ -16,14 +16,15 @@
 
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-
+        
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
 <body>
 
-<div class="container" id="page">
 
+    <header>
+        <div class="container">
 	<div id="header">
 		<div id="logo">
                     <a href="<?php echo Yii::app()->request->baseUrl;?>"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png"/></a>
@@ -48,24 +49,26 @@
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
 		)); ?>
-	</div><!-- mainmenu -->
-	<?php if(isset($this->breadcrumbs)):?>
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?><!-- breadcrumbs -->
-	<?php endif?>
+	</div><!-- mainmenu --></div>
+        </header>
+        <div class="contenedor">
+            <?php if(isset($this->breadcrumbs)):?>
+                    <?php $this->widget('zii.widgets.CBreadcrumbs', array(
+                            'links'=>$this->breadcrumbs,
+                    )); ?><!-- breadcrumbs -->
+            <?php endif?>
 
-	<?php echo $content; ?>
+            <?php echo $content; ?>
 
-	<div class="clear"></div>
+            <div class="clear"></div>
 
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> TIE Studios.<br/>
-		Todos los derechos reservados.<br/>
-		<?php //echo Yii::powered(); ?>
-	</div><!-- footer -->
+            <div id="footer">
+                    Copyright &copy; <?php echo date('Y'); ?> TIE Studios.<br/>
+                    Todos los derechos reservados.<br/>
+                    <?php //echo Yii::powered(); ?>
+            </div><!-- footer -->
 
-</div><!-- page -->
-
+    <!-- page -->
+        </div>
 </body>
 </html>

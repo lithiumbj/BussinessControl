@@ -19,7 +19,6 @@ body
 {
     margin: 0;
     padding: 0;
-    border-top: 3px solid gray;
 }
 
 #content
@@ -38,7 +37,7 @@ body
     margin: 10px 20px;
     font-size: 0.8em;
     text-align: center;
-    border-top: 1px solid #C9E0ED;
+    border-top: 1px solid #00a3d9 ;
 }
 
 #logo
@@ -49,7 +48,7 @@ body
 
 #mainmenu
 {
-    background-color: gray;
+   
 }
 
 #mainmenu ul
@@ -161,8 +160,7 @@ div.search-form
 .portlet-decoration
 {
     padding: 3px 8px;
-    background: #B7D6E7;
-    border-left: 5px solid #6FACCF;
+    background: #00a3d9;
 }
 
 .portlet-title
@@ -171,7 +169,7 @@ div.search-form
     font-weight: bold;
     padding: 0;
     margin: 0;
-    color: #298dcd;
+    color: #ffffff;
 }
 
 .portlet-content
@@ -179,7 +177,7 @@ div.search-form
     font-size:0.9em;
     margin: 0 0 15px 0;
     padding: 5px 8px;
-    background:#EFFDFF;
+    background: whitesmoke;
 }
 
 .portlet-content ul
@@ -211,7 +209,7 @@ div.search-form
 .operations li a
 {
     font: bold 12px Arial;
-    color: #0066A4;
+    color: gray;
     display: block;
     padding: 2px 0 2px 8px;
     line-height: 15px;
@@ -220,12 +218,13 @@ div.search-form
 
 .operations li a:visited
 {
-    color: #0066A4;
+    color: #00a3d9;
 }
 
 .operations li a:hover
 {
-    background: #80CFFF;
+    background: #00a3d9;
+    color: white;
 }
 
 .view{
@@ -265,7 +264,7 @@ a.view{
     border-collapse: collapse;
 }
 .grid-view table.items th{
-    background: #555 !important;
+    background: #00a3d9 !important;
 }
 
 /*Impresion de presupuestos*/
@@ -363,4 +362,34 @@ a.view{
     text-align: center; 
     margin-left: 70px;
     margin-top: 75px;
+}
+header{
+    width: 100%;
+    height: 200px;
+    position: relative;
+    top:0px;
+    left:0px;
+    background-color: #00a3d9 !important;
+    display: block;
+}
+.contenedor{
+    width:950px;
+    margin:0 auto;
+    background-color: white !important;
+    margin-top: -30px;
+    display: block;
+    position: relative;
+}
+table.detail-view tr.odd{
+    background: none !important;
+    border-bottom:1px solid whitesmoke;
+}
+.grid-view table.items tr.odd{
+    background: none !important;
+    border-bottom:1px solid whitesmoke;
+}
+div.form input, div.form select{
+    border: 1px solid #bebebe !important;
+    border-radius: 3px;
+    background: none !important;
 }
