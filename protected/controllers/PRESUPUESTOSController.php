@@ -28,7 +28,7 @@ class PRESUPUESTOSController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update', 'delete','admin','print'),
+				'actions'=>array('index','view','create','update', 'delete','admin','print', 'convert'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -190,6 +190,45 @@ class PRESUPUESTOSController extends Controller
 
             # Outputs ready PDF
             $mPDF1->Output();
+        }
+        /*
+         * Conversión de presupuesto en factura
+         */
+        public function actionConvert()
+        {
+            $id = $_GET['id'];
+            //Obtener la factura mediante su FK
+            $model =  PRESUPUESTOS::model()->findByPk($id);
+            //Renderizar la vista de Print en funcion del modelo obtenido y pasado a la vista de render
+            
+            /*
+             * Convertir a factura
+             */
+             Yii::import('application.controllers.FACTURASController');
+             Yii::import('application.controllers.LINEASCOMPRAController');
+             Yii::import('application.controllers.ARTICULOSController');
+            //Crear la factura nueva
+            $facturaId = FACTURASController::importPresupuesto($model->idCliente, date("Y/m/d"), $model->Observaciones, $model->idEmpleado);
+            echo 'Creando factura con id '.$facturaId;
+            //Insertar uno a uno todos las lineas de compra
+            $lineasCompra = new CActiveDataProvider('LINEASPRESUPUESTOS', array(
+                'criteria'=> array(
+                    'condition' => 'idFactura='.$_GET['id'],
+                    ),
+                ));
+                //var_dump($lineasCompra->getData());
+            foreach($lineasCompra->getData() as $linea){
+                //Obtener los detalles del articulo
+                $articulo = ARTICULOSController::getItemById($linea['idArticulo']);
+                echo 'Almacenando Articulo'.$linea['idArticulo'];
+                LINEASCOMPRAController::importLineaPresupuesto($linea['idArticulo'], $linea['Cantidad'], $facturaId, $articulo['Nombre'], $articulo['pvp']);
+                
+            }
+            $model->ID = $facturaId;
+            $this->render('convert',array('model'=>$model,));
+            //Borrar el presupuesto
+            $this->loadModel($id)->delete();
+            //Redirigir a la factura
         }
         /*
          * Este método retorna todos los clientes registrados para las facturas

@@ -2,10 +2,6 @@
 /* @var $this PRESUPUESTOSController */
 /* @var $model PRESUPUESTOS */
 
-$this->breadcrumbs=array(
-	'Presupuestoses'=>array('index'),
-	$model->ID,
-);
 
 $this->menu=array(
 	array('label'=>'Listar Presupuestos', 'url'=>array('index')),
@@ -14,6 +10,7 @@ $this->menu=array(
 	array('label'=>'Borrar Presupuesto', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Gestionar Presupuestos', 'url'=>array('admin')),
 	array('label'=>'Imprimir Presupuesto', 'url'=>array('print&id='.$model->ID)), 
+	array('label'=>'Convertir en factura', 'url'=>array('convert&id='.$model->ID)), 
 );
 ?>
 

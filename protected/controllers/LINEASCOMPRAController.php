@@ -268,4 +268,22 @@ class LINEASCOMPRAController extends Controller
             ));
             return $resultProvider->getData()[0]['idArticulo'];
         }
+        /*
+         * Insertar una linea de compra de forma externa para factura
+         */
+        public function importLineaPresupuesto($idArticulo, $Cantidad, $idFactura, $NombreDelProducto, $CosteOrigenProducto)
+        {
+            
+            $model = new LINEASCOMPRA;
+            //Cargar los datos en el modelo
+            $model->idArticulo = $idArticulo;
+            $model->Cantidad = $Cantidad;
+            $model->idFactura = $idFactura;
+            $model->NombreDelProducto = $NombreDelProducto;
+            $model->CosteOrigenProducto= $CosteOrigenProducto;
+            //Guardar el modelo
+            var_dump($model);
+            $model->save();
+            print_r($model->getErrors());
+        }
 }

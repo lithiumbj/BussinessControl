@@ -428,4 +428,29 @@ class FACTURASController extends Controller
             $dataProvider->setData($datos);
             return $dataProvider;
         }
+        /*
+         * Funcion que importa la cabecera de una factura desde un presupuesto
+         */
+        public function importPresupuesto($idCliente, $fecha, $observaciones, $idEmpleado)
+        {
+            $model = new FACTURAS;
+            //Cargar los datos en el modelo
+            $model->idCliente = $idCliente;
+            $model->Fecha = $fecha;
+            $model->Observaciones = $observaciones;
+            $model->idEmpleado = $idEmpleado;
+            $model->FormaDePago = 0;
+            $model->Pagado = 0;
+            //Guardar el modelo
+            $model->save();
+            //Obtener todas las facturas creadas
+            $dataProvider = new CActiveDataProvider('FACTURAS');
+            $data;
+            //Recorrer todas las facturas y quedarnos con la ultima "recien creada"
+            foreach($dataProvider->getData() as $factura){
+                $data = $factura;
+            }
+            //Retornar el id de la factura recién creada
+            return $factura['id'];
+        }
 }
