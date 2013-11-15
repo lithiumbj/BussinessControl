@@ -282,7 +282,7 @@ class LINEASCOMPRAController extends Controller
             $model->NombreDelProducto = $NombreDelProducto;
             $model->CosteOrigenProducto= $CosteOrigenProducto;
             //Guardar el modelo
-            var_dump($model);
+            
             $model->save();
             print_r($model->getErrors());
         }

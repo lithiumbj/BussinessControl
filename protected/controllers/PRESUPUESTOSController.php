@@ -216,7 +216,7 @@ class PRESUPUESTOSController extends Controller
                     'condition' => 'idFactura='.$_GET['id'],
                     ),
                 ));
-                //var_dump($lineasCompra->getData());
+                //var_dump($lineasCompra->getData()); 
             foreach($lineasCompra->getData() as $linea){
                 //Obtener los detalles del articulo
                 $articulo = ARTICULOSController::getItemById($linea['idArticulo']);
