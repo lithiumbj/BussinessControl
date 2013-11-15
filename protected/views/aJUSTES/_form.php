@@ -32,6 +32,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model,'IRPF'); ?>
+		<?php echo $form->textField($model,'IRPF'); ?>%
+		<?php echo $form->error($model,'IRPF'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'CIFEmpresa'); ?>
 		<?php echo $form->textField($model,'CIFEmpresa',array('size'=>45,'maxlength'=>45)); ?>
 		<?php echo $form->error($model,'CIFEmpresa'); ?>

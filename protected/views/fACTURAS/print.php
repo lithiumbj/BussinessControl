@@ -15,7 +15,7 @@ $lineasFactura = $this->getPrintLineasCompra($model->id);
 $cliente = $this->getFacturaCliente($model->idCliente);
 ?>
 <div class="facturaPrint">
-    <table border="0">
+    <table border="0" style="width:100%;">
         <tr>
             <td></td>
             <td></td>
@@ -153,6 +153,11 @@ $cliente = $this->getFacturaCliente($model->idCliente);
                 $precioTotal += ($linea['Precio']*$linea['Cantidad']);
                 $IVATotal += (($linea['Precio']*$linea['Cantidad'])*($ajustes['IVA']/100));
                 $RETotal += (($linea['Precio']*$linea['Cantidad'])*($ajustes['RecargoEquivalencia']/100));
+                if($cliente['Cifempresa'] != ''){
+                    $irpf = $precioTotal*($ajustes['IRPF']/100);
+                }else{
+                    $irpf = 0;
+                }
             ?>
         <?php endforeach; ?>
         <!-- Fin de las líneas y printar los datos de pago -->
@@ -184,6 +189,17 @@ $cliente = $this->getFacturaCliente($model->idCliente);
             <td><b>Total EUR+RE excl</b></td>
             <td><?php echo $precioTotal; ?>€</td>
         </tr>
+        <?php if($irpf !=0):?>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>Importe IVA+RE+IRPF</b></td>
+            <td><?php echo round($RETotal+$IVATotal+$irpf,2); ?>€</td>
+        </tr>
+        <?php else:?>
         <tr>
             <td></td>
             <td></td>
@@ -193,6 +209,8 @@ $cliente = $this->getFacturaCliente($model->idCliente);
             <td><b>Importe IVA+RE</b></td>
             <td><?php echo round($RETotal+$IVATotal,2); ?>€</td>
         </tr>
+        
+        <?php endif;?>
         <tr>
             <td></td>
             <td></td>
@@ -200,7 +218,7 @@ $cliente = $this->getFacturaCliente($model->idCliente);
             <td></td>
             <td></td>
             <td><b>Total EUR+RE incl</b></td>
-            <td><?php echo round(($precioTotal)+($RETotal+$IVATotal),2); ?>€</td>
+            <td><?php echo round(($precioTotal)+($RETotal+$IVATotal+$irpf),2); ?>€</td>
         </tr>
     </table>
 </div>

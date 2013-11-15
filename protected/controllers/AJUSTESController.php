@@ -180,6 +180,7 @@ class AJUSTESController extends Controller
             //Almacenar cada uno de los campos en el array
             $settings['IVA'] = $provider->getData()[0]['IVA'];
             $settings['RecargoEquivalencia'] = $provider->getData()[0]['RecargoEquivalencia'];
+            $settings['IRPF'] = $provider->getData()[0]['IRPF'];
             $settings['CIFEmpresa'] = $provider->getData()[0]['CIFEmpresa'];
             $settings['NombreEmpresa'] = $provider->getData()[0]['NombreEmpresa'];
             $settings['NombreCEO'] = $provider->getData()[0]['NombreCEO'];

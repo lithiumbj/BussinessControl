@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'AJUSTES':
  * @property double $IVA
  * @property double $RecargoEquivalencia
+ * @property double $IRPF
  * @property string $CIFEmpresa
  * @property string $NombreEmpresa
  * @property string $NombreCEO
@@ -33,12 +34,12 @@ class AJUSTES extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('IVA, RecargoEquivalencia, CIFEmpresa, NombreEmpresa, NombreCEO, ApellidosCEO, DireccionEmpresa, PoblacionEmpresa, CiudadEmpresa, CPEmpresa', 'required'),
-			array('IVA, RecargoEquivalencia', 'numerical'),
+			array('IVA, RecargoEquivalencia, IRPF, CIFEmpresa, NombreEmpresa, NombreCEO, ApellidosCEO, DireccionEmpresa, PoblacionEmpresa, CiudadEmpresa, CPEmpresa', 'required'),
+			array('IVA, RecargoEquivalencia, IRPF', 'numerical'),
 			array('CIFEmpresa, NombreEmpresa, NombreCEO, ApellidosCEO, DireccionEmpresa, PoblacionEmpresa, CiudadEmpresa, CPEmpresa', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('IVA, RecargoEquivalencia, CIFEmpresa, NombreEmpresa, NombreCEO, ApellidosCEO, DireccionEmpresa, PoblacionEmpresa, CiudadEmpresa, CPEmpresa', 'safe', 'on'=>'search'),
+			array('IVA, RecargoEquivalencia, IRPF, CIFEmpresa, NombreEmpresa, NombreCEO, ApellidosCEO, DireccionEmpresa, PoblacionEmpresa, CiudadEmpresa, CPEmpresa', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +62,7 @@ class AJUSTES extends CActiveRecord
 		return array(
 			'IVA' => 'Iva',
 			'RecargoEquivalencia' => 'Recargo Equivalencia',
+			'IRPF' => 'Irpf',
 			'CIFEmpresa' => 'Cifempresa',
 			'NombreEmpresa' => 'Nombre Empresa',
 			'NombreCEO' => 'Nombre Ceo',
@@ -92,6 +94,7 @@ class AJUSTES extends CActiveRecord
 
 		$criteria->compare('IVA',$this->IVA);
 		$criteria->compare('RecargoEquivalencia',$this->RecargoEquivalencia);
+		$criteria->compare('IRPF',$this->IRPF);
 		$criteria->compare('CIFEmpresa',$this->CIFEmpresa,true);
 		$criteria->compare('NombreEmpresa',$this->NombreEmpresa,true);
 		$criteria->compare('NombreCEO',$this->NombreCEO,true);

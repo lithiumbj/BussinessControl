@@ -13,7 +13,7 @@ $this->menu=array(
 	array('label'=>'Modificar Factura', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Borrar Factura', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
 	array('label'=>'Gestionar Facturas', 'url'=>array('admin')),
-	array('label'=>'Imprimir Presupuesto', 'url'=>array('print&id='.$model->id)), 
+	array('label'=>'Imprimir Factura', 'url'=>array('print&id='.$model->id)), 
 );
 ?>
 
@@ -25,6 +25,10 @@ $this->menu=array(
     //Inicializar y obtener los ajustes de la aplicación
     $ajustes = AJUSTESController::getSettings();
 
+    //Importar el controlador de Clientes
+    Yii::import('application.controllers.CLIENTESController');
+    //Almacenar el objeto del cliente entero
+    $clienteModel = CLIENTESController::findClienteById($model->idCliente);
     //Obtener el nombre del cliente de la factura a través del id de la factura
     $model->idCliente = $this->getCliente($model->idCliente);
     //Obtener el nombre del empleado que la realizó en la factura
@@ -112,7 +116,9 @@ $this->menu=array(
                 <td><b>Precio</td>
                 <td><b>% IVA</b></td>
                 <td><b>Valor IVA</b></td>
-                <td><b>Total con IVA</b></td>
+                <td><b>% IRPF</b></td>
+                <td><b>Valor IRPF</b></td>
+                <td><b>Total con Impuestos</b></td>
             </tr>
             <tr>
 <?php 
@@ -125,11 +131,26 @@ $this->menu=array(
     }
     //Calcular el total de iva
     $totaliva = ($total*($ajustes['IVA']/100));
+    //Declarar IRPF a 0 en para que en caso de que no se sume nada, no sea nula y estropee las operaciones
+    $totalIRPF =0;
+    if($clienteModel->CIFEmpresa != ''):
+    $totalIRPF = ($total*($ajustes['IRPF']/100));
 ?>
                 <td><?php echo $total;?>€</td>
-                <td>21%</td>
+                <td><?php echo $ajustes['IVA'];?>%</td>
                 <td><?php echo $totaliva; ?>€</td>
+                <td><?php echo $ajustes['IRPF'];?>%</td>
+                <td><?php echo $totalIRPF; ?>€</td>
+                <td><?php echo $totaliva+$total+$totalIRPF;?>€</td>
+            </tr>
+            <?php else:?>
+            <td><?php echo $total;?>€</td>
+                <td><?php echo $ajustes['IVA'];?>%</td>
+                <td><?php echo $totaliva; ?>€</td>
+                <td>No-Aplicable</td>
+                <td>No-Aplicable</td>
                 <td><?php echo $totaliva+$total;?>€</td>
             </tr>
+            <?php endif;?>
     </table>
   

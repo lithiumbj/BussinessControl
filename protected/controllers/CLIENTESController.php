@@ -162,4 +162,11 @@ class CLIENTESController extends Controller
 			Yii::app()->end();
 		}
 	}
+        /*
+         * Esta funcion retorna un cliente (objeto completo) en funcion de su id
+         */
+        public function findClienteById($idCliente)
+        {
+            return CLIENTES::model()->findByPk($idCliente);
+        }
 }

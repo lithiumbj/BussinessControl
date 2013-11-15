@@ -12,6 +12,7 @@ $this->widget('zii.widgets.CDetailView', array(
 	'attributes'=>array(
 		'IVA',
 		'RecargoEquivalencia',
+		'IRPF',
 		'CIFEmpresa',
 		'NombreEmpresa',
 		'NombreCEO',
