@@ -90,10 +90,10 @@ return array(
 		),*/
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=BussinessControl',
+			'connectionString' => 'mysql:host=localhost;dbname=bussinesscontrol_main',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'Borja.1993',
+			'username' => 'bussinesscontrol',
+			'password' => 'qwertyB24',
 			'charset' => 'utf8',
 		),
 		
