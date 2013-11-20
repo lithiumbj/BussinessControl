@@ -297,7 +297,7 @@ class LINEASCOMPRAController extends Controller
         /*
          * Insertar una linea de compra de forma externa para factura
          */
-        public function importLineaPresupuesto($idArticulo, $Cantidad, $idFactura, $NombreDelProducto, $CosteOrigenProducto)
+        public function importLineaPresupuesto($idArticulo, $Cantidad, $idFactura, $NombreDelProducto, $CosteOrigenProducto, $isBlank)
         {
             
             $model = new LINEASCOMPRA;
@@ -307,6 +307,7 @@ class LINEASCOMPRAController extends Controller
             $model->idFactura = $idFactura;
             $model->NombreDelProducto = $NombreDelProducto;
             $model->CosteOrigenProducto= $CosteOrigenProducto;
+            $model->isBlank = $isBlank;
             //Guardar el modelo
             
             $model->save();

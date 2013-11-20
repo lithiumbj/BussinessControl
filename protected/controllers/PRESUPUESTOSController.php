@@ -186,7 +186,7 @@ class PRESUPUESTOSController extends Controller
             $mPDF1->WriteHTML($this->renderPartial('print', array('model'=>$model), true));
 
             # Renders image
-            $mPDF1->WriteHTML(CHtml::image(Yii::getPathOfAlias('webroot.css') . '/bg.gif' ));
+            //$mPDF1->WriteHTML(CHtml::image(Yii::getPathOfAlias('webroot.css') . '/bg.gif' ));
 
             # Outputs ready PDF
             $mPDF1->Output();
@@ -219,9 +219,14 @@ class PRESUPUESTOSController extends Controller
                 //var_dump($lineasCompra->getData()); 
             foreach($lineasCompra->getData() as $linea){
                 //Obtener los detalles del articulo
-                $articulo = ARTICULOSController::getItemById($linea['idArticulo']);
-                echo 'Almacenando Articulo'.$linea['idArticulo'];
-                LINEASCOMPRAController::importLineaPresupuesto($linea['idArticulo'], $linea['Cantidad'], $facturaId, $articulo['Nombre'], $articulo['pvp']);
+                if($linea['idArticulo']==1){
+                   // echo 'Almacenando Articulo'.$linea['idArticulo'];
+                    LINEASCOMPRAController::importLineaPresupuesto($linea['idArticulo'], $linea['Cantidad'], $facturaId, $linea['NombreDelProducto'], $linea['CosteOrigenProducto'],1);
+                }else{
+                    $articulo = ARTICULOSController::getItemById($linea['idArticulo']);
+                   // echo 'Almacenando Articulo'.$linea['idArticulo'];
+                    LINEASCOMPRAController::importLineaPresupuesto($linea['idArticulo'], $linea['Cantidad'], $facturaId, $articulo['Nombre'], $articulo['pvp'],0);
+                }
                 
             }
             $model->ID = $facturaId;
@@ -359,15 +364,21 @@ class PRESUPUESTOSController extends Controller
             //Recorrer cada línea de compra y almacenar los datos
             for($i=0;$i<count($provider1Data);$i++){
                 $array[$i]['id'] = $provider1Data[$i]['id'];
-                $provider2 = new CActiveDataProvider('ARTICULOS', array(
-                    'criteria' => array(
-                        'condition' => 'id='.$provider1Data[$i]['idArticulo'],
-                    ),
-                ));
-                $provider2Data = $provider2->getData();
-                $array[$i]['Nombre'] = $provider2Data[0]['Nombre'];
-                $array[$i]['Precio'] = $provider2Data[0]['pvp'];
-                $array[$i]['Cantidad'] = $provider1Data[$i]['Cantidad'];
+                if($provider1Data[$i]['isBlank']==1){
+                   $array[$i]['Nombre'] = $provider1Data[$i]['NombreDelProducto'];
+                   $array[$i]['Precio'] = $provider1Data[$i]['CosteOrigenProducto'];
+                   $array[$i]['Cantidad'] = $provider1Data[$i]['Cantidad'];   
+                }else{
+                    $provider2 = new CActiveDataProvider('ARTICULOS', array(
+                       'criteria' => array(
+                           'condition' => 'id='.$provider1Data[$i]['idArticulo'],
+                       ),
+                   ));
+                   $provider2Data = $provider2->getData();
+                   $array[$i]['Nombre'] = $provider2Data[0]['Nombre'];
+                   $array[$i]['Precio'] = $provider2Data[0]['pvp'];
+                   $array[$i]['Cantidad'] = $provider1Data[$i]['Cantidad'];   
+                }
             }
             return $array;
         }
