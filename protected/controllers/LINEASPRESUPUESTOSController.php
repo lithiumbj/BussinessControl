@@ -58,13 +58,32 @@ class LINEASPRESUPUESTOSController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+                
 		if(isset($_POST['LINEASPRESUPUESTOS']))
 		{
-			$model->attributes=$_POST['LINEASPRESUPUESTOS'];
-			if($model->save()){
-				$this->redirect(array('//pRESUPUESTOS/view','id'=>$model->idFactura));
-                        }
+                    $model->attributes=$_POST['LINEASPRESUPUESTOS'];
+                    if($model->NombreDelProducto!=''){
+                                 $model->isBlank =1;
+                                 $model->save();
+                                 $this->redirect(array('//PRESUPUESTOS/view','id'=>$model->idFactura));
+                            }else{
+                                Yii::import('application.controllers.ARTICULOSController');
+                                $articulo = ARTICULOSController::getItemById($model->idArticulo);
+                                //Incluir los datos en el modelo
+                                $model->CosteOrigenProducto=$articulo['pvp'];
+                                $model->NombreDelProducto=$articulo['Nombre'];
+                                $model->isBlank = 0;
+                                //END
+                                if(ARTICULOSController::downStock($model->idArticulo, $model->Cantidad)){
+                                        //Disminuir en STOCK la cantidad de elementos que se han pedido a la linea
+                                        $model->save();
+                                        $this->redirect(array('//PRESUPUESTOS/view','id'=>$model->idFactura));
+                                }
+                                    else{
+                                        $this->redirect(array('//PRESUPUESTOS/view','id'=>$model->idFactura, 'err'=>1));
+
+                                }
+                            }
 		}
 
 		$this->render('create',array(
@@ -203,16 +222,22 @@ class LINEASPRESUPUESTOSController extends Controller
             $preProcesado = $dataProvider->getData();
             //Recorrer el array del data provider
             for($i=0;$i<count($preProcesado);$i++){
-                //Localizar los atributos y sustituirlos por un corresponiente "User-friendly"
-                 $subProveedor = new CActiveDataProvider('ARTICULOS', array(
-                'criteria' => array(
-                        'condition'=>'id='.$preProcesado[$i]['idArticulo'],
-                        ),
-            ));
-                 //Extraer los datos del DataProvider
-                 $subSubProveedor = $subProveedor->getData();
-                 $preProcesado[$i]['idArticulo'] = $subSubProveedor[0]['Nombre'];
-                 //Crear el campo de precio unitario dentro de la linea de compra para visualizarlo en el formulario
+                 //Verificar que el articulo existe o no en los registros y si existe aplicar la forma de facturación normal, sino, agregarlo manualmente al datagridview
+                if($preProcesado[$i]['isBlank']==1){
+                    $preProcesado[$i]['idArticulo'] = $preProcesado[$i]['NombreDelProducto'];
+                    //$preProcesado[$i]['idArticulo'] = $preProcesado[$i]['NombreDelProducto'];
+                }else{
+                        //Localizar los atributos y sustituirlos por un corresponiente "User-friendly"
+                    $subProveedor = new CActiveDataProvider('ARTICULOS', array(
+                   'criteria' => array(
+                           'condition'=>'id='.$preProcesado[$i]['idArticulo'],
+                           ),
+                    ));
+                         //Extraer los datos del DataProvider
+                         $subSubProveedor = $subProveedor->getData();
+                         $preProcesado[$i]['idArticulo'] = $subSubProveedor[0]['Nombre'];
+                         //Crear el campo de precio unitario dentro de la linea de compra para visualizarlo en el formulario
+                    } 
             } 
             //Re-insertar los datos en el data provider
             $dataProvider->setData($preProcesado);
@@ -224,19 +249,26 @@ class LINEASPRESUPUESTOSController extends Controller
          */
         public function getItemPVP($itemId)
         {
-            $dataProvider = new CActiveDataProvider('LINEASPRESUPUESTOS', array(
-                'criteria' => array(
-                    'condition'=>'id='.$itemId,
-                )
-            ));
-            $preResult = $dataProvider->getData();
-            $resultProvider = new CActiveDataProvider('ARTICULOS', array(
-                'criteria' => array(
-                    'condition'=>'id='.$preResult[0]['idArticulo'],
-                )
-            ));
-            $return = $resultProvider->getData();
-            return $return[0]['pvp'];
+             $model=  LINEASPRESUPUESTOS::model()->findByPk($itemId);
+            //Verificar si el producto está dado de alta en la base de datos o si por el contrario se deben obtener los datos de la propia tabla de líneas
+            if($model->isBlank==1){
+                //Retornamos directamente el coste del producto almacenado en la linea de compra
+                return $model['CosteOrigenProducto'];
+            }else{
+                $dataProvider = new CActiveDataProvider('LINEASPRESUPUESTOS', array(
+                    'criteria' => array(
+                        'condition'=>'id='.$itemId,
+                    )
+                ));
+                $preResult = $dataProvider->getData();
+                $resultProvider = new CActiveDataProvider('ARTICULOS', array(
+                    'criteria' => array(
+                        'condition'=>'id='.$preResult[0]['idArticulo'],
+                    )
+                ));
+                $return = $resultProvider->getData();
+                return $return[0]['pvp'];
+            }
         }
         /*
          * Retorna el precio unitario de un articulo dado su id de articulo en si

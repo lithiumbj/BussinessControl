@@ -215,7 +215,7 @@ class FACTURASController extends Controller
             $mPDF1->WriteHTML($this->renderPartial('print', array('model'=>$model), true));
 
             # Renders image
-            $mPDF1->WriteHTML(CHtml::image(Yii::getPathOfAlias('webroot.css') . '/bg.gif' ));
+           // $mPDF1->WriteHTML(CHtml::image(Yii::getPathOfAlias('webroot.css') . '/bg.gif' ));
 
             # Outputs ready PDF
             $mPDF1->Output();
@@ -365,12 +365,22 @@ class FACTURASController extends Controller
             for($i=0;$i<count($lineas);$i++){
                 //guardar el idDel articulo por comodidad
                 $idLinea = $lineas[$i]['idArticulo'];
-                $detallesProductos = $this->getArticuloDetails($idLinea);
-                //Crear un array con los datos de las lineas de compra
-                $returnLineas[$i]['idProducto'] = $lineas[$i]['idArticulo'];
-                $returnLineas[$i]['Cantidad'] = $lineas[$i]['Cantidad'];
-                $returnLineas[$i]['Precio'] = $detallesProductos['pvp'];
-                $returnLineas[$i]['Nombre'] = $detallesProductos['Nombre'];
+                //verificar si es un articulo no-existente en la tabla de articulos
+                if($lineas[$i]['isBlank']==1){
+                    //Si no existe, obtener las propiedades directamente de la linea de compra/
+                    $returnLineas[$i]['idProducto'] = $lineas[$i]['idArticulo'];
+                    $returnLineas[$i]['Cantidad'] = $lineas[$i]['Cantidad'];
+                    $returnLineas[$i]['Precio'] = $lineas[$i]['CosteOrigenProducto'];
+                    $returnLineas[$i]['Nombre'] = $lineas[$i]['NombreDelProducto'];
+                }else{
+                    //Si existe, obtener las propiedades de la tabla de productos
+                    $detallesProductos = $this->getArticuloDetails($idLinea);
+                    //Crear un array con los datos de las lineas de compra
+                    $returnLineas[$i]['idProducto'] = $lineas[$i]['idArticulo'];
+                    $returnLineas[$i]['Cantidad'] = $lineas[$i]['Cantidad'];
+                    $returnLineas[$i]['Precio'] = $detallesProductos['pvp'];
+                    $returnLineas[$i]['Nombre'] = $detallesProductos['Nombre'];
+                }
             }
             
             //Retorno de datos
@@ -389,7 +399,7 @@ class FACTURASController extends Controller
                ),
             ));
             //Almacenamiento de datos del cliente
-            $dataFactura = $dataFactura;
+            $dataFactura = $dataProvider->getData();
             $cliente['Nombre'] = $dataFactura[0]['Nombre'];
             $cliente['Apellidos'] = $dataFactura[0]['Apellidos'];
             $cliente['Cifempresa'] = $dataFactura[0]['CIFEmpresa'];

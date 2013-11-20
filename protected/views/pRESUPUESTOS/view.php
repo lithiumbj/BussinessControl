@@ -117,9 +117,13 @@ switch ($model->Proforma) {
     $lineas = LINEASPRESUPUESTOSController::getLineas($model->ID)->getData();
     $total=0;
     foreach($lineas as $linea){
+        if($linea['isBlank']==1){
+            $total += ($linea['CosteOrigenProducto']*$linea['Cantidad']);
+        }else{
         //Calcular el total de dinero obteniendo el pvp sobre la obtención del id de cada articulo
         $total = $total+(LINEASPRESUPUESTOSController::getItemPVPById(LINEASPRESUPUESTOSController::getItemIDbyFactura($linea['id']))*$linea['Cantidad']);
-    }
+        }
+   }
     //Calcular el total de iva
     $totaliva = ($total*0.21);
 ?>
