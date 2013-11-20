@@ -127,7 +127,11 @@ $this->menu=array(
     $total=0;
     foreach($lineas as $linea){
         //Calcular el total de dinero obteniendo el pvp sobre la obtención del id de cada articulo
-        $total = $total+(LINEASCOMPRAController::getItemPVPById(LINEASCOMPRAController::getItemIDbyFactura($linea['id']))*$linea['Cantidad']);
+        if($linea['isBlank']==1){
+            $total += ($linea['CosteOrigenProducto']*$linea['Cantidad']);
+        }else{
+            $total = $total+(LINEASCOMPRAController::getItemPVPById(LINEASCOMPRAController::getItemIDbyFactura($linea['id']))*$linea['Cantidad']);
+        }
     }
     //Calcular el total de iva
     $totaliva = ($total*($ajustes['IVA']/100));

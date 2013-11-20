@@ -87,7 +87,6 @@ class LINEASCOMPRAController extends Controller
                             }
                         }
 		}
-
 		$this->render('create',array(
 			'model'=>$model,
 		));
@@ -218,20 +217,27 @@ class LINEASCOMPRAController extends Controller
             $preProcesado = $dataProvider->getData();
             //Recorrer el array del data provider
             for($i=0;$i<count($preProcesado);$i++){
-                //Localizar los atributos y sustituirlos por un corresponiente "User-friendly"
-                 $subProveedor = new CActiveDataProvider('ARTICULOS', array(
-                'criteria' => array(
-                        'condition'=>'id='.$preProcesado[$i]['idArticulo'],
-                        ),
-            ));
-                 //Extraer los datos del DataProvider
-                 $proveedor = $subProveedor->getData();
-                 $preProcesado[$i]['idArticulo'] = $proveedor[0]['Nombre'];
-                 //Crear el campo de precio unitario dentro de la linea de compra para visualizarlo en el formulario
-            } 
-            //Re-insertar los datos en el data provider
-            $dataProvider->setData($preProcesado);
+                //Verificar que el articulo existe o no en los registros y si existe aplicar la forma de facturación normal, sino, agregarlo manualmente al datagridview
+                if($preProcesado[$i]['isBlank']==1){
+                    $preProcesado[$i]['idArticulo'] = $preProcesado[$i]['NombreDelProducto'];
+                    //$preProcesado[$i]['idArticulo'] = $preProcesado[$i]['NombreDelProducto'];
+                }else{
+                    //Localizar los atributos y sustituirlos por un corresponiente "User-friendly"
+                     $subProveedor = new CActiveDataProvider('ARTICULOS', array(
+                    'criteria' => array(
+                            'condition'=>'id='.$preProcesado[$i]['idArticulo'],
+                            ),
+                    ));
+                         //Extraer los datos del DataProvider
+                         $articulos = $subProveedor->getData();
+                         $preProcesado[$i]['idArticulo'] = $articulos[0]['Nombre'];
+                         //Crear el campo de precio unitario dentro de la linea de compra para visualizarlo en el formulario
+                    } 
+                    //Re-insertar los datos en el data provider
+                    }
+                    $dataProvider->setData($preProcesado);
             return $dataProvider;
+            
         }
         
         /*
@@ -239,32 +245,40 @@ class LINEASCOMPRAController extends Controller
          */
         public function getItemPVP($itemId)
         {
-            $dataProvider = new CActiveDataProvider('LINEASCOMPRA', array(
-                'criteria' => array(
-                    'condition'=>'id='.$itemId,
-                )
-            ));
-            $dProvider = $dataProvider->getData();
-            $resultProvider = new CActiveDataProvider('ARTICULOS', array(
-                'criteria' => array(
-                    'condition'=>'id='.$dProvider[0]['idArticulo'],
-                )
-            ));
-            $return = $resultProvider->getData();
-            return $return[0]['pvp'];
+            $model=LINEASCOMPRA::model()->findByPk($itemId);
+            //Verificar si el producto está dado de alta en la base de datos o si por el contrario se deben obtener los datos de la propia tabla de líneas
+            if($model->isBlank==1){
+                //Retornamos directamente el coste del producto almacenado en la linea de compra
+                return $model['CosteOrigenProducto'];
+            }else{
+                //Retornamos el precio del producto almacenando en la tabla de articulos
+                $dataProvider = new CActiveDataProvider('LINEASCOMPRA', array(
+                    'criteria' => array(
+                        'condition'=>'id='.$itemId,
+                    )
+                ));
+                $dProvider = $dataProvider->getData();
+                $resultProvider = new CActiveDataProvider('ARTICULOS', array(
+                    'criteria' => array(
+                        'condition'=>'id='.$dProvider[0]['idArticulo'],
+                    )
+                ));
+                $return = $resultProvider->getData();
+                return $return[0]['pvp'];
+            }
         }
         /*
          * Retorna el precio unitario de un articulo dado su id de articulo en si
          */
         public function getItemPVPById($itemId)
         {
-            $resultProvider = new CActiveDataProvider('ARTICULOS', array(
-                'criteria' => array(
-                    'condition'=>'id='.$itemId,
-                )
-            ));
-            $return = $resultProvider->getData();
-            return $return[0]['pvp'];
+                $resultProvider = new CActiveDataProvider('ARTICULOS', array(
+                    'criteria' => array(
+                        'condition'=>'id='.$itemId,
+                    )
+                ));
+                $return = $resultProvider->getData();
+                return $return[0]['pvp'];
         }
         /*
          * Retorna el id del articulo en base a la linea de compra
