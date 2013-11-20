@@ -210,7 +210,8 @@ class LINEASPRESUPUESTOSController extends Controller
                         ),
             ));
                  //Extraer los datos del DataProvider
-                 $preProcesado[$i]['idArticulo'] = $subProveedor->getData()[0]['Nombre'];
+                 $subSubProveedor = $subProveedor->getData();
+                 $preProcesado[$i]['idArticulo'] = $subSubProveedor[0]['Nombre'];
                  //Crear el campo de precio unitario dentro de la linea de compra para visualizarlo en el formulario
             } 
             //Re-insertar los datos en el data provider
@@ -228,12 +229,14 @@ class LINEASPRESUPUESTOSController extends Controller
                     'condition'=>'id='.$itemId,
                 )
             ));
+            $preResult = $dataProvider->getData();
             $resultProvider = new CActiveDataProvider('ARTICULOS', array(
                 'criteria' => array(
-                    'condition'=>'id='.$dataProvider->getData()[0]['idArticulo'],
+                    'condition'=>'id='.$preResult[0]['idArticulo'],
                 )
             ));
-            return $resultProvider->getData()[0]['pvp'];
+            $return = $resultProvider->getData();
+            return $return[0]['pvp'];
         }
         /*
          * Retorna el precio unitario de un articulo dado su id de articulo en si
@@ -245,7 +248,8 @@ class LINEASPRESUPUESTOSController extends Controller
                     'condition'=>'id='.$itemId,
                 )
             ));
-            return $resultProvider->getData()[0]['pvp'];
+            $return = $resultProvider->getData();
+            return $return[0]['pvp'];
         }
         /*
          * Retorna el id del articulo en base a la linea de compra
@@ -261,6 +265,7 @@ class LINEASPRESUPUESTOSController extends Controller
                     'pageSize'=>2000,
                 ),
             ));
-            return $resultProvider->getData()[0]['idArticulo'];
+             $return = $resultProvider->getData();
+            return $return[0]['idArticulo'];
         }
 }

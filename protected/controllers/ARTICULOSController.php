@@ -177,7 +177,7 @@ class ARTICULOSController extends Controller
                     'pageSize'=>2000,
                 ),
         ));
-        $listaProveedores;
+        $listaProveedores = array();
         //Obtener todos los items del proveedor
         foreach ($proveedores->getData() as $data) {
             //Obtener el proveedor de cada articulo Filtrando su id a traves del ID del proveedor de cada articulo del proveedor
@@ -213,16 +213,18 @@ class ARTICULOSController extends Controller
                 ),
         ));
            //Extraer el proveedor del articulo proveedor
+        $dProvider = $articuloProveedorProvider->getData();
         $proveedoresProvider = new CActiveDataProvider('PROVEEDORES', array(
            'criteria' => array(
-              'condition' => 'id='.$articuloProveedorProvider->getData()[0]['idProveedor'],
+              'condition' => 'id='.$dProvider[0]['idProveedor'],
            ) ,
                  'pagination'=>array(
                     'pageSize'=>2000,
                 ),
         ));
            //retornar el valor
-           return $proveedoresProvider->getData()[0]['Nombre'];
+        $return = $proveedoresProvider->getData();
+           return $return[0]['Nombre'];
     }
     /*
      * Retorna los datos de un objeto en funcion de su id
@@ -234,8 +236,8 @@ class ARTICULOSController extends Controller
                'condition' => 'id='.$id,
            ),
         ));
-        
-        return $dataProvider->getData()[0];
+        $return = $dataProvider->getData();
+        return $return[0];
     }
     /*
      * Funcion que retorna true si se puede realizar la acción de disminuir STOCK

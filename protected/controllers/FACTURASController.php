@@ -327,11 +327,12 @@ class FACTURASController extends Controller
                     'pageSize'=>2000,
                 ),
             ));
-            $articulos;
+            $articulos =  array();
             //Recorrer los Articulos y construir un array de pares
             foreach($data->getData() as $articulo){
                 $articulos[$articulo->id] = $articulo['Nombre'];
             }
+            
             return $articulos;
         }
         /*
@@ -344,8 +345,8 @@ class FACTURASController extends Controller
                    'condition' => 'id='.$idArticulo,
                ),
             ));
-            
-            return $dataProvider->getData()[0];
+            $return = $dataProvider->getData();
+            return $return[0];
         }
         /*
          * Retorna un dataProvider (data) con todos los articulos seleccionados en las lineas de compra
@@ -364,11 +365,12 @@ class FACTURASController extends Controller
             for($i=0;$i<count($lineas);$i++){
                 //guardar el idDel articulo por comodidad
                 $idLinea = $lineas[$i]['idArticulo'];
+                $detallesProductos = $this->getArticuloDetails($idLinea);
                 //Crear un array con los datos de las lineas de compra
                 $returnLineas[$i]['idProducto'] = $lineas[$i]['idArticulo'];
                 $returnLineas[$i]['Cantidad'] = $lineas[$i]['Cantidad'];
-                $returnLineas[$i]['Precio'] = $this->getArticuloDetails($idLinea)['pvp'];
-                $returnLineas[$i]['Nombre'] = $this->getArticuloDetails($idLinea)['Nombre'];
+                $returnLineas[$i]['Precio'] = $detallesProductos['pvp'];
+                $returnLineas[$i]['Nombre'] = $detallesProductos['Nombre'];
             }
             
             //Retorno de datos
@@ -387,14 +389,15 @@ class FACTURASController extends Controller
                ),
             ));
             //Almacenamiento de datos del cliente
-            $cliente['Nombre'] = $dataProvider->getData()[0]['Nombre'];
-            $cliente['Apellidos'] = $dataProvider->getData()[0]['Apellidos'];
-            $cliente['Cifempresa'] = $dataProvider->getData()[0]['CIFEmpresa'];
-            $cliente['Empresa'] = $dataProvider->getData()[0]['Empresa'];
-            $cliente['Poblacion'] = $dataProvider->getData()[0]['Poblacion'];
-            $cliente['Provincia'] = $dataProvider->getData()[0]['Ciudad'];
-            $cliente['Direccion'] = $dataProvider->getData()[0]['Direccion'];
-            $cliente['CodigoPostal'] = $dataProvider->getData()[0]['CodigoPostal'];
+            $dataFactura = $dataFactura;
+            $cliente['Nombre'] = $dataFactura[0]['Nombre'];
+            $cliente['Apellidos'] = $dataFactura[0]['Apellidos'];
+            $cliente['Cifempresa'] = $dataFactura[0]['CIFEmpresa'];
+            $cliente['Empresa'] = $dataFactura[0]['Empresa'];
+            $cliente['Poblacion'] = $dataFactura[0]['Poblacion'];
+            $cliente['Provincia'] = $dataFactura[0]['Ciudad'];
+            $cliente['Direccion'] = $dataFactura[0]['Direccion'];
+            $cliente['CodigoPostal'] = $dataFactura[0]['CodigoPostal'];
             
             //Retorno de datos
             return $cliente;

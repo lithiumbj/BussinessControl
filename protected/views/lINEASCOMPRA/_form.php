@@ -8,7 +8,7 @@
 
 <?php   $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'lineascompra-form',
-        'action' => '/BussinessControl/index.php?r=lINEASCOMPRA/create',
+        'action' => '/index.php?r=lINEASCOMPRA/create',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -32,11 +32,29 @@
 		<?php echo $form->textField($model,'Cantidad'); ?>
 		<?php echo $form->error($model,'Cantidad'); ?>
 	</div>
+	<div class="vrow" id="hidden2" style="display:none;">
+		<?php echo $form->labelEx($model,'NombreDelProducto'); ?>
+		<?php echo $form->textField($model,'NombreDelProducto'); ?>
+		<?php echo $form->error($model,'NombreDelProducto'); ?>
+	</div>
 
-	<div class="vrow" style="display: none;">
+	<div class="vrow" id="hidden1" style="display:none;">
+		<?php echo $form->labelEx($model,'CosteOrigenProducto'); ?>
+		<?php echo $form->textField($model,'CosteOrigenProducto'); ?>
+		<?php echo $form->error($model,'CosteOrigenProducto'); ?>
+	</div>
+        
+        <div class="vrow" style="display: none;">
 		<?php echo $form->labelEx($model,'idFactura'); ?>
 		<?php echo $form->textField($model,'idFactura'); ?>
 		<?php echo $form->error($model,'idFactura'); ?>
+	</div>
+        <div class="vrow" style="display: none;">
+		<?php 
+                $model->isBlank =0;
+                echo $form->labelEx($model,'isBlank'); ?>
+		<?php echo $form->textField($model,'isBlank'); ?>
+		<?php echo $form->error($model,'isBlank'); ?>
 	</div>
         
 	<div class="vrow">
@@ -46,3 +64,26 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+    window.onload = function()
+    {
+        //Agregar listener al desplegable de precios para mostrar u ocultar los campos
+        var selector = document.getElementById("LINEASCOMPRA_idArticulo");
+        //Mostrar por defecto los campos de creación de nuevo articulo
+        document.getElementById("hidden1").style.display ="inline-block";
+        document.getElementById("hidden2").style.display ="inline-block";
+        //Iniciar la comprobación del selector de articulos
+        selector.onchange = function(){
+            if(document.getElementById("LINEASCOMPRA_idArticulo").value == 1){
+                //Si se elije la opcion de articulo nuevo
+                document.getElementById("hidden1").style.display ="inline-block";
+                document.getElementById("hidden2").style.display ="inline-block";
+            }else{
+                //Si se elija la opcion de articulo ya existente
+                document.getElementById("hidden1").style.display ="none";
+                document.getElementById("hidden2").style.display ="none";
+            }
+        };
+    }
+</script>

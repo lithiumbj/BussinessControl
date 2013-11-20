@@ -90,9 +90,9 @@ return array(
 		),*/
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=bussinesscontrol_main',
+			'connectionString' => 'mysql:host=localhost;dbname=tiestudios_siglacreativa',
 			'emulatePrepare' => true,
-			'username' => 'bussinesscontrol',
+			'username' => 'tiestudios',
 			'password' => 'qwertyB24',
 			'charset' => 'utf8',
 		),

@@ -169,7 +169,8 @@ class AJUSTESController extends Controller
         {
             $provider = new CActiveDataProvider('AJUSTES');
             //Redirigir a la vista detalle de los ajustes
-            $this->redirect(array('update','id'=>$provider->getData()[0]['CIFEmpresa']));
+            $proveedor = $provider->getData();
+            $this->redirect(array('update','id'=>$proveedor[0]['CIFEmpresa']));
         }
         /*
          * Retorna los ajustes de la aplicación en un array
@@ -178,17 +179,18 @@ class AJUSTESController extends Controller
         {
             $provider = new CActiveDataProvider('AJUSTES');
             //Almacenar cada uno de los campos en el array
-            $settings['IVA'] = $provider->getData()[0]['IVA'];
-            $settings['RecargoEquivalencia'] = $provider->getData()[0]['RecargoEquivalencia'];
-            $settings['IRPF'] = $provider->getData()[0]['IRPF'];
-            $settings['CIFEmpresa'] = $provider->getData()[0]['CIFEmpresa'];
-            $settings['NombreEmpresa'] = $provider->getData()[0]['NombreEmpresa'];
-            $settings['NombreCEO'] = $provider->getData()[0]['NombreCEO'];
-            $settings['ApellidosCEO'] = $provider->getData()[0]['ApellidosCEO'];
-            $settings['DireccionEmpresa'] = $provider->getData()[0]['DireccionEmpresa'];
-            $settings['PoblacionEmpresa'] = $provider->getData()[0]['PoblacionEmpresa'];
-            $settings['CiudadEmpresa'] = $provider->getData()[0]['CiudadEmpresa'];
-            $settings['CPEmpresa'] = $provider->getData()[0]['CPEmpresa'];
+            $proveedor = $provider->getData();
+            $settings['IVA'] = $proveedor[0]['IVA'];
+            $settings['RecargoEquivalencia'] = $proveedor[0]['RecargoEquivalencia'];
+            $settings['IRPF'] = $proveedor[0]['IRPF'];
+            $settings['CIFEmpresa'] = $proveedor[0]['CIFEmpresa'];
+            $settings['NombreEmpresa'] = $proveedor[0]['NombreEmpresa'];
+            $settings['NombreCEO'] = $proveedor[0]['NombreCEO'];
+            $settings['ApellidosCEO'] = $proveedor[0]['ApellidosCEO'];
+            $settings['DireccionEmpresa'] = $proveedor[0]['DireccionEmpresa'];
+            $settings['PoblacionEmpresa'] = $proveedor[0]['PoblacionEmpresa'];
+            $settings['CiudadEmpresa'] = $proveedor[0]['CiudadEmpresa'];
+            $settings['CPEmpresa'] = $proveedor[0]['CPEmpresa'];
             
             return $settings;
         }

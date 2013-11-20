@@ -246,7 +246,8 @@ class ALBARANESController extends Controller
                     'pageSize'=>2000,
                 ),
             ));
-            return $dataProvider->getData()[0]['Nombre'];
+            $return = $dataProvider->getData();
+            return $return[0]['Nombre'];
         }
         
         /*
@@ -262,7 +263,8 @@ class ALBARANESController extends Controller
                     'pageSize'=>2000,
                 ),
             ));
-            return $dataProvider->getData()[0]['Nombre'].' '.$dataProvider->getData()[0]['Apellidos'];
+            $return = $dataProvider->getData();
+            return $return[0]['Nombre'].' '.$return[0]['Apellidos'];
         }
         
         /*
@@ -278,6 +280,7 @@ class ALBARANESController extends Controller
                     'pageSize'=>2000,
                 ),
             ));
-            return $dataProvider->getData()[0]['Nombre'];
+            $return = $dataProvider->getData();
+            return $return[0]['Nombre'];
         }
 }

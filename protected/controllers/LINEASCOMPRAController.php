@@ -64,20 +64,27 @@ class LINEASCOMPRAController extends Controller
 			$model->attributes=$_POST['LINEASCOMPRA'];
                         //Guardar datos extra para la linea de compra en caso de que se borren los articulos de origen
                         //Que no se pieda ni el concepto ni el importe sin iva
-                        Yii::import('application.controllers.ARTICULOSController');
-                        $articulo = ARTICULOSController::getItemById($model->idArticulo);
-                        //Incluir los datos en el modelo
-                        $model->CosteOrigenProducto=$articulo['pvp'];
-                        $model->NombreDelProducto=$articulo['Nombre'];
-                        //END
-			if(ARTICULOSController::downStock($model->idArticulo, $model->Cantidad)){
-                                //Disminuir en STOCK la cantidad de elementos que se han pedido a la linea
-                                $model->save();
-                                $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
-                        }
-                            else{
-                                $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura, 'err'=>1));
-                                
+                        if($model->NombreDelProducto!=''){
+                             $model->isBlank =1;
+                             $model->save();
+                             $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
+                        }else{
+                            Yii::import('application.controllers.ARTICULOSController');
+                            $articulo = ARTICULOSController::getItemById($model->idArticulo);
+                            //Incluir los datos en el modelo
+                            $model->CosteOrigenProducto=$articulo['pvp'];
+                            $model->NombreDelProducto=$articulo['Nombre'];
+                            $model->isBlank = 0;
+                            //END
+                            if(ARTICULOSController::downStock($model->idArticulo, $model->Cantidad)){
+                                    //Disminuir en STOCK la cantidad de elementos que se han pedido a la linea
+                                    $model->save();
+                                    $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura));
+                            }
+                                else{
+                                    $this->redirect(array('//FACTURAS/view','id'=>$model->idFactura, 'err'=>1));
+
+                            }
                         }
 		}
 
@@ -186,7 +193,7 @@ class LINEASCOMPRAController extends Controller
             //Obtener con un provider TODOS los articulos
             $data = new CActiveDataProvider('ARTICULOS');
             $articulos;
-            //Recorrer los Articulos y construir un array de pares
+            //Recorrer los Articulos y construir un array de pares; 
             foreach($data->getData() as $articulo){
                 $articulos[$articulo->id] = $articulo['Nombre'];
             }
@@ -218,7 +225,8 @@ class LINEASCOMPRAController extends Controller
                         ),
             ));
                  //Extraer los datos del DataProvider
-                 $preProcesado[$i]['idArticulo'] = $subProveedor->getData()[0]['Nombre'];
+                 $proveedor = $subProveedor->getData();
+                 $preProcesado[$i]['idArticulo'] = $proveedor[0]['Nombre'];
                  //Crear el campo de precio unitario dentro de la linea de compra para visualizarlo en el formulario
             } 
             //Re-insertar los datos en el data provider
@@ -236,12 +244,14 @@ class LINEASCOMPRAController extends Controller
                     'condition'=>'id='.$itemId,
                 )
             ));
+            $dProvider = $dataProvider->getData();
             $resultProvider = new CActiveDataProvider('ARTICULOS', array(
                 'criteria' => array(
-                    'condition'=>'id='.$dataProvider->getData()[0]['idArticulo'],
+                    'condition'=>'id='.$dProvider[0]['idArticulo'],
                 )
             ));
-            return $resultProvider->getData()[0]['pvp'];
+            $return = $resultProvider->getData();
+            return $return[0]['pvp'];
         }
         /*
          * Retorna el precio unitario de un articulo dado su id de articulo en si
@@ -253,7 +263,8 @@ class LINEASCOMPRAController extends Controller
                     'condition'=>'id='.$itemId,
                 )
             ));
-            return $resultProvider->getData()[0]['pvp'];
+            $return = $resultProvider->getData();
+            return $return[0]['pvp'];
         }
         /*
          * Retorna el id del articulo en base a la linea de compra
@@ -266,7 +277,8 @@ class LINEASCOMPRAController extends Controller
                     'condition'=>'id='.$facid,
                 )
             ));
-            return $resultProvider->getData()[0]['idArticulo'];
+             $return = $resultProvider->getData();
+            return $return[0]['idArticulo'];
         }
         /*
          * Insertar una linea de compra de forma externa para factura

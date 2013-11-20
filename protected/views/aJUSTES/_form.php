@@ -87,7 +87,7 @@
 
 
 	<div class="row">
-		Versión actual del sistema: <b>2014 Beta3</b><br/>
+		Versión actual del sistema: <b>2014 Beta5</b><br/>
                 Compilación actual del sistema: <b>1000</b><br/>
                 Compruebe versiones del sistema <a target="BLANK" href="http://www.tiestudios.com/api/bc/updateCheck.php?comp=1000&custom=yes" style="text-decoration: none !important;">aquí</a>
 	</div>
