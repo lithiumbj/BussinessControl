@@ -234,7 +234,7 @@ class FACTURASController extends Controller
                 ),
             ));
             //Creamos un array de pares de clientes vacio
-            $listaClientes;
+            $listaClientes = Array();
             //Iteramos un $clienete por cada uno de los disponibles en clientes
             foreach($clientes->getData() as $cliente){
                 //Grabamos el cliente en el array

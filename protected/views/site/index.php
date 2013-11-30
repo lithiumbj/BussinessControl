@@ -4,6 +4,14 @@
 Bienvenido a Bussiness Control 2014<br/><br/>
 El ERP o aplicación de gestión empresarial de TIE Studios.<br/><br/>
 
+<h3>¡Se ha actualizado el ERP a su versión BETA 5, se han introducido los siguientes cambios</h3>
+<b>- Añadido soporte para Agregar articulos/servicios que no han sido dados de alta ni tienen proveedor</b><br/>
+<b>- Agregado proveedor "Fantasma" para permitir la creación de productos en la factura</b><br/>
+<b>- Agregado soporte de impresión de los "articulos Nuevos"</b><br/>
+<b>- Eliminado el Contrato del presupuesto</b><br/>
+<b>- Correcciones varias</b><br/>
+
+<br/><br/>
 <h3>¡Se ha actualizado el ERP a su versión BETA 4, se han introducido los siguientes cambios</h3>
 <b>- Añadido el soporte de IRPF</b><br/>
 <b>- Reparado fallos al convertir presupuesto a factura</b><br/>

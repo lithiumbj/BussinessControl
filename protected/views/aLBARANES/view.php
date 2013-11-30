@@ -8,11 +8,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List ALBARANES', 'url'=>array('index')),
-	array('label'=>'Create ALBARANES', 'url'=>array('create')),
-	array('label'=>'Update ALBARANES', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Delete ALBARANES', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage ALBARANES', 'url'=>array('admin')),
+	array('label'=>'Listar Albaranes', 'url'=>array('index')),
+	array('label'=>'Crear Albaran', 'url'=>array('create')),
+	array('label'=>'Editar Albaran', 'url'=>array('update', 'id'=>$model->id)),
+	array('label'=>'Borrar Albaran', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>'Gestionar Albaranes', 'url'=>array('admin')),
 );
 ?>
 

@@ -3,7 +3,7 @@
 /* @var $model EMPLEADOS */
 
 $this->breadcrumbs=array(
-	'Empleadoses'=>array('index'),
+	'Empleados'=>array('index'),
 	$model->id,
 );
 
@@ -15,7 +15,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>View EMPLEADOS #<?php echo $model->id; ?></h1>
+<h1>Empleado: <?php echo $model->Nombre.' '.$model->Apellidos; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
@@ -29,5 +29,7 @@ $this->menu=array(
 		'Ciudad',
 		'Pais',
 		'Email',
+                'SeguridadSocial',
+                'CuentaBancaria',
 	),
 )); ?>

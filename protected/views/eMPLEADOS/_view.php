@@ -17,10 +17,10 @@
 	<?php echo CHtml::encode($data->Apellidos); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('FechaNacimiento')); ?>:</b>
-	<?php echo CHtml::encode($data->FechaNacimiento); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('Email')); ?>:</b>
+	<?php echo CHtml::encode($data->Email); ?>
 	<br />
-
+        
 	<b><?php echo CHtml::encode($data->getAttributeLabel('DNI')); ?>:</b>
 	<?php echo CHtml::encode($data->DNI); ?>
 	<br />
@@ -34,6 +34,9 @@
 	<br />
 
 	<?php /*
+         * <b><?php echo CHtml::encode($data->getAttributeLabel('FechaNacimiento')); ?>:</b>
+	<?php echo CHtml::encode($data->FechaNacimiento); ?>
+	<br />
 	<b><?php echo CHtml::encode($data->getAttributeLabel('Ciudad')); ?>:</b>
 	<?php echo CHtml::encode($data->Ciudad); ?>
 	<br />
@@ -42,9 +45,6 @@
 	<?php echo CHtml::encode($data->Pais); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('Email')); ?>:</b>
-	<?php echo CHtml::encode($data->Email); ?>
-	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('Password')); ?>:</b>
 	<?php echo CHtml::encode($data->Password); ?>

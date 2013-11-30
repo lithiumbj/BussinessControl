@@ -92,8 +92,8 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=tiestudios_siglacreativa',
 			'emulatePrepare' => true,
-			'username' => 'tiestudios',
-			'password' => 'qwertyB24',
+			'username' => 'root',
+			'password' => 'Borja.1993',
 			'charset' => 'utf8',
 		),
 		

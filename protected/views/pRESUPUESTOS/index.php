@@ -3,16 +3,16 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Presupuestoses',
+	'Presupuestos',
 );
 
 $this->menu=array(
-	array('label'=>'Create PRESUPUESTOS', 'url'=>array('create')),
-	array('label'=>'Manage PRESUPUESTOS', 'url'=>array('admin')),
+	array('label'=>'Crear Presupuesto', 'url'=>array('create')),
+	array('label'=>'Gestionar Presupuestos', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Presupuestoses</h1>
+<h1>Presupuestos</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

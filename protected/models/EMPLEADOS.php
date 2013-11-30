@@ -15,10 +15,13 @@
  * @property string $Pais
  * @property string $Email
  * @property string $Password
+ * @property string $CuentaBancaria
+ * @property string $SeguridadSocial
  *
  * The followings are the available model relations:
  * @property ALBARANES[] $aLBARANESs
  * @property FACTURAS[] $fACTURASes
+ * @property PRESUPUESTOS[] $pRESUPUESTOSes
  */
 class EMPLEADOS extends CActiveRecord
 {
@@ -42,12 +45,12 @@ class EMPLEADOS extends CActiveRecord
 			array('Nombre, Apellidos, Password', 'length', 'max'=>100),
 			array('DNI', 'length', 'max'=>9),
 			array('Direccion', 'length', 'max'=>256),
-			array('Poblacion, Ciudad, Pais', 'length', 'max'=>45),
+			array('Poblacion, Ciudad, Pais, CuentaBancaria, SeguridadSocial', 'length', 'max'=>45),
 			array('Email', 'length', 'max'=>128),
 			array('FechaNacimiento', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, Nombre, Apellidos, FechaNacimiento, DNI, Direccion, Poblacion, Ciudad, Pais, Email, Password', 'safe', 'on'=>'search'),
+			array('id, Nombre, Apellidos, FechaNacimiento, DNI, Direccion, Poblacion, Ciudad, Pais, Email, Password, CuentaBancaria, SeguridadSocial', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +64,7 @@ class EMPLEADOS extends CActiveRecord
 		return array(
 			'aLBARANESs' => array(self::HAS_MANY, 'ALBARANES', 'idEmpleado'),
 			'fACTURASes' => array(self::HAS_MANY, 'FACTURAS', 'idEmpleado'),
+			'pRESUPUESTOSes' => array(self::HAS_MANY, 'PRESUPUESTOS', 'idEmpleado'),
 		);
 	}
 
@@ -81,6 +85,8 @@ class EMPLEADOS extends CActiveRecord
 			'Pais' => 'Pais',
 			'Email' => 'Email',
 			'Password' => 'Password',
+			'CuentaBancaria' => 'Cuenta Bancaria',
+			'SeguridadSocial' => 'Seguridad Social',
 		);
 	}
 
@@ -113,6 +119,8 @@ class EMPLEADOS extends CActiveRecord
 		$criteria->compare('Pais',$this->Pais,true);
 		$criteria->compare('Email',$this->Email,true);
 		$criteria->compare('Password',$this->Password,true);
+		$criteria->compare('CuentaBancaria',$this->CuentaBancaria,true);
+		$criteria->compare('SeguridadSocial',$this->SeguridadSocial,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

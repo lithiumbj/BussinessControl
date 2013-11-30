@@ -17,7 +17,7 @@
     ));
     ?>
 
-    <p class="note">Fields with <span class="required">*</span> are required.</p>
+    <p class="note">Campos con <span class="required">*</span> son requeridos.</p>
 
     <?php echo $form->errorSummary($model); ?>
 
@@ -97,8 +97,19 @@
         <?php echo $form->error($model, 'Password'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model, 'CuentaBancaria'); ?>
+        <?php echo $form->textField($model, 'CuentaBancaria', array('size' => 45, 'maxlength' => 45)); ?>
+        <?php echo $form->error($model, 'CuentaBancaria'); ?>
+    </div>
+    <div class="row">
+        <?php echo $form->labelEx($model, 'SeguridadSocial'); ?>
+        <?php echo $form->textField($model, 'SeguridadSocial', array('size' => 45, 'maxlength' => 45)); ?>
+        <?php echo $form->error($model, 'SeguridadSocial'); ?>
+    </div>
+
     <div class="row buttons">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
     </div>
 
     <?php $this->endWidget(); ?>

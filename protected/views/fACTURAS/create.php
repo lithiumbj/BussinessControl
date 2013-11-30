@@ -3,7 +3,7 @@
 /* @var $model FACTURAS */
 
 $this->breadcrumbs=array(
-	'Facturases'=>array('index'),
+	'Facturas'=>array('index'),
 	'Create',
 );
 
@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create FACTURAS</h1>
+<h1>Creando factura</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

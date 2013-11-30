@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create ALBARANES', 'url'=>array('create')),
-	array('label'=>'Manage ALBARANES', 'url'=>array('admin')),
+	array('label'=>'Crear Albaran', 'url'=>array('create')),
+	array('label'=>'Gestionar Albaranes', 'url'=>array('admin')),
 );
 ?>
 

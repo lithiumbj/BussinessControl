@@ -1,12 +1,12 @@
 <?php
 /* @var $this AJUSTESController */
 /* @var $model AJUSTES */
-
+/*
 $this->breadcrumbs=array(
 	'Ajustes'=>array('index'),
 	$model->CIFEmpresa=>array('view','id'=>$model->CIFEmpresa),
 	'Update',
-);
+);*/
 ?> 
 
 <h1>Ajustes de la aplicación</h1>
