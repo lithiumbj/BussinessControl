@@ -10,6 +10,8 @@
  * @property string $Observaciones
  * @property integer $idEmpleado
  * @property integer $Proforma
+ * @property string $Cabecera
+ * @property string $Pie
  *
  * The followings are the available model relations:
  * @property LINEASPRESUPUESTOS[] $lINEASPRESUPUESTOSes
@@ -36,10 +38,10 @@ class PRESUPUESTOS extends CActiveRecord
 		return array(
 			array('idCliente, idEmpleado', 'required'),
 			array('idCliente, idEmpleado, Proforma', 'numerical', 'integerOnly'=>true),
-			array('Fecha, Observaciones', 'safe'),
+			array('Fecha, Observaciones, Cabecera, Pie', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, idCliente, Fecha, Observaciones, idEmpleado, Proforma', 'safe', 'on'=>'search'),
+			array('ID, idCliente, Fecha, Observaciones, idEmpleado, Proforma, Cabecera, Pie', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,6 +71,8 @@ class PRESUPUESTOS extends CActiveRecord
 			'Observaciones' => 'Observaciones',
 			'idEmpleado' => 'Id Empleado',
 			'Proforma' => 'Proforma',
+			'Cabecera' => 'Cabecera',
+			'Pie' => 'Pie',
 		);
 	}
 
@@ -96,6 +100,8 @@ class PRESUPUESTOS extends CActiveRecord
 		$criteria->compare('Observaciones',$this->Observaciones,true);
 		$criteria->compare('idEmpleado',$this->idEmpleado);
 		$criteria->compare('Proforma',$this->Proforma);
+		$criteria->compare('Cabecera',$this->Cabecera,true);
+		$criteria->compare('Pie',$this->Pie,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

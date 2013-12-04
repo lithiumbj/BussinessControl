@@ -46,7 +46,21 @@
                 ?>
 		<?php echo $form->error($model,'Fecha'); ?>
 	</div>
-
+        <div class="row">
+            <?php echo $form->labelEx($model, 'Cabecera');?>
+		<?php /*echo $form->textArea($model,'Cabecera',array('rows'=>100, 'cols'=>100));*/
+                $this->widget('application.extensions.tinymce.ETinyMce',
+                array(
+                    'model' => $model,
+                    'name'=>'PRESUPUESTOS[Cabecera]',
+                    'useSwitch' => false,
+                    'attribute' => 'Cabecera',
+                    'editorTemplate'=>'full'
+                    )
+                ); 
+                ?>
+		<?php echo $form->error($model,'Cabecera'); ?>
+        </div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'Observaciones'); ?>
 		<?php echo $form->textArea($model,'Observaciones',array('rows'=>6, 'cols'=>50)); ?>
@@ -68,6 +82,20 @@
 		<?php echo $form->error($model,'Proforma'); ?>
 	</div>
 
+        <div class="row">
+            <?php echo $form->labelEx($model, 'Pie');?>
+		<?php /*echo $form->textArea($model,'Pie',array('rows'=>100, 'cols'=>100)); */
+                $this->widget('application.extensions.tinymce.ETinyMce',
+                array(
+                    'name'=>'PRESUPUESTOS[Pie]',
+                    'useSwitch' => false,
+                    'editorTemplate'=>'full'
+                    )
+                ); 
+                ?>
+		<?php echo $form->error($model,'Pie'); ?>
+        </div>
+        
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
 	</div>
